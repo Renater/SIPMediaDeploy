@@ -1,3 +1,7 @@
+# Environment files
+env.d/ansible
+env.d/terraform
+
+# Ansible setup directories
 ansible/env/
 ansible/collections/
-env.d/terraform

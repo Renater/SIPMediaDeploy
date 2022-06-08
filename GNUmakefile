@@ -1,6 +1,12 @@
 ansible/env:
 	virtualenv ansible/env
 
+.PHONY: env
+env: env.d/ansible env.d/terraform
+
+env.d/ansible:
+	cp env.d/ansible.dist env.d/ansible
+
 env.d/terraform:
 	cp env.d/terraform.dist env.d/terraform
 
