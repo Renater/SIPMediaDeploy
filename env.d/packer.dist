@@ -1,0 +1,9 @@
+OS_AUTH_URL="https://identity.myprovider/v3"
+OS_USERNAME="myuser"
+OS_PASSWORD="password"
+OS_REGION_NAME=
+OS_TENANT_ID=tenantIDString
+SOURCE_ID=`openstack image list -f json | jq -r '.[] | select(.Name == "Ubuntu 16.04") | .ID'`
+FLAVOR_ID=`openstack flavor list -f json | jq -r '.[] | select(.Name == "vps-ssd-1") | .ID'`
+NETWORK_ID=`openstack network list -f json | jq -r '.[] | select(.Name == "Ext-Net") | .ID'`
+
