@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eo pipefail
+
+# Load ansible configuration
+source env.d/ansible
+export ANSIBLE_REMOTE_USER
+
+# Launch ansible-playbook the Ansible directory
+cd ansible
+env/bin/ansible-playbook "$@"
