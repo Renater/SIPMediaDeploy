@@ -1,1 +1,3 @@
+ansible/env/
+ansible/collections/
 env.d/terraform
