@@ -30,5 +30,5 @@ The Ansible configuration is detailed in the [ansible.cfg](./ansible.cfg) file. 
 To run an Ansible playbook on a set of hosts, complete the [inventory file](./inventories/main.yml) and launch the following command:
 
 ```bash
-ansible-playbook playbooks/<your playbook>.yml [-l <list of hosts>] [--ask-pass]
+env/bin/ansible-playbook playbooks/<your playbook>.yml [-l <list of hosts>] [--ask-pass]
 ```
