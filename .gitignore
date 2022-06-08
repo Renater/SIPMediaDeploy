@@ -1,5 +1,6 @@
 # Environment files
 env.d/ansible
+env.d/packer
 env.d/terraform
 
 # Terraform local files
