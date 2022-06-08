@@ -1,0 +1,9 @@
+#!/bin/bash
+set -eo pipefail
+
+# Load terraform configuration
+source env.d/terraform
+
+# Launch terraform
+cd terraform
+terraform "$@"

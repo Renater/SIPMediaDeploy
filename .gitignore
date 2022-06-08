@@ -1,1 +1,4 @@
 env.d/terraform
+
+terraform/.terraform/
+terraform/terraform.tfstate*
