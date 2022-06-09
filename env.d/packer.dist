@@ -8,7 +8,6 @@ OS_PROJECT_ID="projectid"
 OS_PROJECT_NAME="projectname"
 OS_INTERFACE="public"
 OS_IDENTITY_API_VERSION="3"
-PKR_VAR_SOURCE_ID=`openstack image list -f json | jq -r '.[] | select(.Name == "Ubuntu 16.04") | .ID'`
-PKR_VAR_FLAVOR_ID=`openstack flavor list -f json | jq -r '.[] | select(.Name == "vps-ssd-1") | .ID'`
-PKR_VAR_NETWORK_ID=`openstack network list -f json | jq -r '.[] | select(.Name == "Ext-Net") | .ID'`
-
+PKR_VAR_SOURCE_ID="imagesourceID"
+PKR_VAR_FLAVOR_ID="flavorID"
+PKR_VAR_NETWORK_ID="networkID"

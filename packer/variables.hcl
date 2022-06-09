@@ -5,7 +5,7 @@ variable "SOURCE_ID" {
 
 variable "FLAVOR_ID" {
   type        = string
-  description = " The ID of the flavor to be used for the image "
+  description = "The ID of the flavor to be used for the image"
 }
 
 variable "NETWORK_ID" {

@@ -16,9 +16,9 @@ Credentials can be downloaded from the dashboard (you can follow [this tutorial]
 
 Other variables must be set in order to create the image: the ID of the image, the ID of the flavor and Id of the network.
 
-These information can be found either using the Openstack command Line or directly from the dashboard.
+These information can be found either using the Openstack command line or directly from the dashboard.
 
-In order to launch a packer commands, the file containing the variables must be
+In order to launch packer commands, the file containing the variables must be
 sourced.
 
 
