@@ -1,4 +1,11 @@
+# Environment files
+env.d/ansible
 env.d/terraform
 
+# Terraform local files
 terraform/.terraform/
 terraform/terraform.tfstate*
+
+# Ansible setup directories
+ansible/env/
+ansible/collections/
