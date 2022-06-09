@@ -1,0 +1,5 @@
+---
+- name: Provision the SIP Media Gateway
+  hosts: all
+  roles:
+    - gateway
