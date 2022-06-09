@@ -18,8 +18,7 @@ Other variables must be set in order to create the image: the ID of the image, t
 
 These information can be found either using the Openstack command line or directly from the dashboard.
 
-In order to launch packer commands, the file containing the variables must be
-sourced.
+In order to launch packer commands, the file containing the variables must be sourced.
 
 
 ## Launch a packer build
@@ -27,6 +26,5 @@ sourced.
 In order to build an image, launch the following command:
 
 ```bash
-packer validate .
 packer build .
 ```

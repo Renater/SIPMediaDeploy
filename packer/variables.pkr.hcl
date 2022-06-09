@@ -10,5 +10,5 @@ variable "FLAVOR_ID" {
 
 variable "NETWORK_ID" {
   type        = string
-  description = "The ID of the network to be used for the initial server created when building the image"
+  description = "The ID of the network to be used for the created server"
 }

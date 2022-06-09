@@ -1,3 +1,4 @@
+# Openstack credentials
 OS_AUTH_URL=https://auth.cloud.ovh.net/v3
 OS_USERNAME=
 OS_PASSWORD=
@@ -8,6 +9,8 @@ OS_PROJECT_ID=
 OS_PROJECT_NAME=
 OS_INTERFACE=public
 OS_IDENTITY_API_VERSION=3
+
+# Image configuration variables
 PKR_VAR_SOURCE_ID=
 PKR_VAR_FLAVOR_ID=
 PKR_VAR_NETWORK_ID=
