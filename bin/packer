@@ -1,0 +1,22 @@
+#!/bin/bash
+set -eo pipefail
+
+# Load packer configuration
+source env.d/packer
+export OS_AUTH_URL \
+    OS_USERNAME \
+    OS_PASSWORD \
+    OS_REGION_NAME \
+    OS_PROJECT_DOMAIN_ID \
+    OS_USER_DOMAIN_NAME \
+    OS_PROJECT_ID \
+    OS_PROJECT_NAME \
+    OS_INTERFACE \
+    OS_IDENTITY_API_VERSION \
+    PKR_VAR_SOURCE_ID \
+    PKR_VAR_FLAVOR_ID \
+    PKR_VAR_NETWORK_ID
+
+# Launch packer
+cd packer
+packer "$@"
