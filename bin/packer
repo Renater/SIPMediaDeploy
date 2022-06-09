@@ -15,8 +15,8 @@ export OS_AUTH_URL \
     OS_IDENTITY_API_VERSION \
     PKR_VAR_SOURCE_ID \
     PKR_VAR_FLAVOR_ID \
-    PKR_VAR_NETWORK_ID 
+    PKR_VAR_NETWORK_ID
 
-# Launch packer validate/build
+# Launch packer
 cd packer
 packer "$@"
