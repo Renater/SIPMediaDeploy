@@ -160,4 +160,3 @@ DB_PATH="/usr/local/etc/kamailio/kamailio.sqlite"
 ## Extra start options - default is: not set
 # example: start Kamailio with 64MB share memory: STARTOPTIONS="-m 64"
 # STARTOPTIONS=
-
