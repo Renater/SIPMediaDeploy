@@ -1,0 +1,20 @@
+---
+- name: Install packages
+  become: true
+  apt:
+    name:
+      - kamailio
+      - kamailio-mysql-modules
+      - kamailio-tls-modules
+    update_cache: true
+
+- name: Copy configuration files
+  become: true
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/kamailio/{{ item }}"
+  notify: Reload Kamailio
+  loop:
+    - kamailio.cfg
+    - kamctlrc
+    - tls.cfg

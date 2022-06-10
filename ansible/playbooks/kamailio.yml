@@ -1,0 +1,5 @@
+---
+- name: Provision the Kamailio server
+  hosts: all
+  roles:
+    - kamailio

@@ -1,0 +1,6 @@
+---
+- name: Reload Kamailio
+  become: true
+  systemd:
+    name: kamailio
+    state: reloaded
