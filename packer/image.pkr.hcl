@@ -9,4 +9,8 @@ source "openstack" "gateway" {
 
 build {
   sources = ["source.openstack.gateway"]
+  provisioner "ansible" {
+    command       = "./ansible.sh"
+    playbook_file = "../ansible/playbooks/gateway.yml"
+  }
 }
