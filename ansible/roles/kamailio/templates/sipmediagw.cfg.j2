@@ -1,10 +1,10 @@
 [sip]
-  sipSrv="192.168.92.2"
+  sipSrv="{{ ansible_host }}"
   sipSecret="1234"
-  turnConfig="turn:192.168.92.3:3478;stunuser=dmo;stunpass=1234"
+  turnConfig="turn:{{ coturn_host }}:3478;stunuser=dmo;stunpass=1234"
 
 [mediagw]
   sipUaNamePart="mediagw"
   cpuCorePerGw=2.5
-  launcherAPIPath="http://192.168.92.1:8080/sipmediagw"
+  launcherAPIPath="http://{{ gwlauncher_host }}:8080/sipmediagw"
 
