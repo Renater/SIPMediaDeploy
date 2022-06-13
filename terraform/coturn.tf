@@ -26,6 +26,5 @@ resource "openstack_compute_instance_v2" "coturn" {
 
   network {
     uuid = var.coturn_network_id
-    name = "public"
   }
 }

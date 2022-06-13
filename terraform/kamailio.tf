@@ -26,6 +26,5 @@ resource "openstack_compute_instance_v2" "kamailio" {
 
   network {
     uuid = var.kamailio_network_id
-    name = "public"
   }
 }
