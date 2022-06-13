@@ -23,6 +23,9 @@ resource "openstack_compute_instance_v2" "kamailio" {
   name      = var.kamailio_name
   image_id  = var.kamailio_image_id
   flavor_id = var.kamailio_flavor_id
+  user_data = templatefile("${path.module}/kamailio.cloud-init.sh", {
+    coturn_ip = openstack_compute_instance_v2.coturn.access_ip_v4
+  })
 
   network {
     uuid = var.kamailio_network_id
