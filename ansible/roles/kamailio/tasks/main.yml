@@ -37,6 +37,16 @@
 
 - name: Copy configuration files
   become: true
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/kamailio/{{ item }}"
+  notify: Restart Kamailio
+  loop:
+    - tls.cfg
+    - request_gw.py
+
+- name: Copy configuration templates
+  become: true
   template:
     src: "{{ item }}.j2"
     dest: "/etc/kamailio/{{ item }}"
@@ -44,8 +54,6 @@
   loop:
     - kamailio.cfg
     - kamctlrc
-    - tls.cfg
-    - request_gw.py
     - sipmediagw.cfg
 
 - name: Create /usr/local/etc/kamailio directory
