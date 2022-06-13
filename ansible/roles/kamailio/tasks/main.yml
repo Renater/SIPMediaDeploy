@@ -12,6 +12,7 @@
     state: present
 
 - name: Add Kamailio Repository
+  become: true
   apt_repository:
     repo: "deb http://deb.kamailio.org/kamailio{{ kamailio_major_version }}{{ kamailio_minor_version }} {{ ansible_distribution_release }} main"
     state: present
@@ -21,11 +22,18 @@
   apt:
     name:
       - kamailio
-      - kamailio-mysql-modules
       - kamailio-tls-modules
       - kamailio-websocket-modules
+      - kamailio-python3-modules
+      - kamailio-sqlite-modules
       - default-mysql-server
+      - python3-pip
     update_cache: true
+
+- name: Install pexpect
+  become: true
+  pip:
+    name: pexpect
 
 - name: Copy configuration files
   become: true
@@ -37,3 +45,18 @@
     - kamailio.cfg
     - kamctlrc
     - tls.cfg
+    - request_gw.py
+    - sipmediagw.cfg
+
+- name: Create /usr/local/etc/kamailio directory
+  become: true
+  file:
+    path: /usr/local/etc/kamailio
+    state: directory
+
+- name: Create Kamailio database
+  become: true
+  expect:
+    command: /usr/sbin/kamdbctl create
+    responses:
+      (?i)Install: y
