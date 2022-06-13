@@ -3,7 +3,15 @@ set -eo pipefail
 
 # Load terraform configuration
 source env.d/terraform
-export OS_AUTH_URL \
+export TF_VAR_coturn_name \
+    TF_VAR_coturn_image_id \
+    TF_VAR_coturn_flavor_id \
+    TF_VAR_coturn_network_id \
+    TF_VAR_kamailio_name \
+    TF_VAR_kamailio_image_id \
+    TF_VAR_kamailio_flavor_id \
+    TF_VAR_kamailio_network_id \
+    OS_AUTH_URL \
     OS_USERNAME \
     OS_PASSWORD \
     OS_REGION_NAME \

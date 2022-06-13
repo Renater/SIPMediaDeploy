@@ -1,3 +1,16 @@
+# Coturn configuration variables
+TF_VAR_coturn_name=coturn
+TF_VAR_coturn_image_id=
+TF_VAR_coturn_flavor_id=
+TF_VAR_coturn_network_id=
+
+# Kamailio configuration variables
+TF_VAR_kamailio_name=kamailio
+TF_VAR_kamailio_image_id=
+TF_VAR_kamailio_flavor_id=
+TF_VAR_kamailio_network_id=
+
+
 ### PROVIDERS CONFIGURATIONS ###
 
 # Openstack credentials
