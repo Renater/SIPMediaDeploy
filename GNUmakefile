@@ -17,3 +17,7 @@ env.d/terraform:
 install-ansible: ansible/env
 	ansible/env/bin/pip3 install -r ansible/requirements.txt
 	cd ansible/ && env/bin/ansible-galaxy install -r requirements.yml
+
+.PHONY: install-terraform
+install-terraform:
+	bin/terraform init
