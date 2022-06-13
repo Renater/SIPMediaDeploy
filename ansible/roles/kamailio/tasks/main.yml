@@ -13,7 +13,7 @@
   copy:
     src: "{{ item }}"
     dest: "/etc/kamailio/{{ item }}"
-  notify: Reload Kamailio
+  notify: Restart Kamailio
   loop:
     - kamailio.cfg
     - kamctlrc
