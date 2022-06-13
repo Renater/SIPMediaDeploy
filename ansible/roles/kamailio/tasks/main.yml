@@ -1,4 +1,21 @@
 ---
+- name: Install gnupg2
+  become: true
+  apt:
+    name: gnupg2
+    update_cache: true
+
+- name: Add Kamailio GPG apt Key
+  become: true
+  apt_key:
+    url: http://deb.kamailio.org/kamailiodebkey.gpg
+    state: present
+
+- name: Add Kamailio Repository
+  apt_repository:
+    repo: "deb http://deb.kamailio.org/kamailio{{ kamailio_major_version }}{{ kamailio_minor_version }} {{ ansible_distribution_release }} main"
+    state: present
+
 - name: Install packages
   become: true
   apt:
@@ -6,12 +23,14 @@
       - kamailio
       - kamailio-mysql-modules
       - kamailio-tls-modules
+      - kamailio-websocket-modules
+      - default-mysql-server
     update_cache: true
 
 - name: Copy configuration files
   become: true
-  copy:
-    src: "{{ item }}"
+  template:
+    src: "{{ item }}.j2"
     dest: "/etc/kamailio/{{ item }}"
   notify: Restart Kamailio
   loop:

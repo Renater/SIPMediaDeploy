@@ -193,7 +193,7 @@ children=8
 # auto_aliases=no
 
 /* add local domain aliases - it can be set many times */
-alias="192.168.92.1"
+alias="{{ ansible_host }}"
 
 /* listen sockets - if none set, Kamailio binds to all local IP addresses
  * - basic prototype (full prototype can be found in Wiki - Core Cookbook):
@@ -554,7 +554,7 @@ request_route {
 	}
 
         python_exec("handler", "RSIP\n");
-	
+
         # account only INVITEs
 	if (is_method("INVITE")) {
 		setflag(FLT_ACC); # do accounting

@@ -5,7 +5,7 @@
 # will use their internal default values.
 
 ## your SIP domain
-SIP_DOMAIN=192.168.92.1
+SIP_DOMAIN={{ ansible_host }}
 
 ## chrooted directory
 # $CHROOT_DIR="/path/to/chrooted/directory"
@@ -42,7 +42,7 @@ DB_PATH="/usr/local/etc/kamailio/kamailio.sqlite"
 # DBROPW="kamailioro"
 
 ## database access host (from where is kamctl used)
-# DBACCESSHOST=192.168.0.1
+# DBACCESSHOST={{ ansible_host }}
 
 ## database super user (for ORACLE this is 'scheme-creator' user)
 # DBROOTUSER="root"
