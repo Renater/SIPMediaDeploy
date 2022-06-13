@@ -53,10 +53,18 @@
   file:
     path: /usr/local/etc/kamailio
     state: directory
+  notify: Restart Kamailio
 
-- name: Create Kamailio database
+- name: Check if database already exists
+  stat:
+    path: /usr/local/etc/kamailio/kamailio.sqlite
+  register: database_file
+
+- name: Create Kamailio database if not exists
   become: true
   expect:
     command: /usr/sbin/kamdbctl create
     responses:
       (?i)Install: y
+  notify: Restart Kamailio
+  when: not database_file.stat.exists
