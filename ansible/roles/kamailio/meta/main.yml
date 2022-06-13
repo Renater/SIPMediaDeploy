@@ -13,13 +13,10 @@ galaxy_info:
     - name: Debian
       versions:
         - bullseye
-        - buster
-        - stretch
     - name: Ubuntu
       versions:
         - focal
         - bionic
-        - xenial
 
   galaxy_tags:
     - SIP
