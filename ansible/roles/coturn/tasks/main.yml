@@ -1,0 +1,20 @@
+---
+- name: install coturn
+  become: true
+  apt:
+    pkg: coturn
+    state: present
+
+- name: ensure coturn is enabled
+  become: true
+  lineinfile:
+    dest: /etc/default/coturn
+    line: TURNSERVER_ENABLED=1
+    regexp: "^#?TURNSERVER_ENABLED="
+
+- name: Copy configuration file
+  become: true
+  template:
+    src: "turnserver.conf.j2"
+    dest: "/etc/turnserver.conf"
+  notify: Restart Coturn
