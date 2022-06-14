@@ -39,6 +39,9 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/kamailio/{{ item }}"
+    mode: "640"
+    owner: kamailio
+    group: kamailio
   notify: Restart Kamailio
   loop:
     - tls.cfg
@@ -49,6 +52,9 @@
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/kamailio/{{ item }}"
+    mode: "640"
+    owner: kamailio
+    group: kamailio
   notify: Restart Kamailio
   loop:
     - kamailio.cfg
@@ -60,6 +66,9 @@
   ansible.builtin.file:
     path: /usr/local/etc/kamailio
     state: directory
+    mode: "640"
+    owner: kamailio
+    group: kamailio
   notify: Restart Kamailio
 
 - name: Check if database already exists
