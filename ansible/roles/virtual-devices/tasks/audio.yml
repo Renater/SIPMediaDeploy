@@ -1,0 +1,22 @@
+---
+- name: Configure virtual audio loopback devices
+  become: true
+  ansible.builtin.copy:
+    content: options snd-aloop enable=1,1,1,1,1,1,1,1 index=0,1,2,3,4,5,6,7
+    dest: /etc/modprobe.d/alsa-loopback.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable snd-aloop kernel module at boot
+  become: true
+  ansible.builtin.lineinfile:
+    line: snd-aloop
+    path: /etc/modules
+    state: present
+
+- name: Load snd-aloop kernel module
+  become: true
+  community.general.modprobe:
+    name: snd-aloop
+    state: present

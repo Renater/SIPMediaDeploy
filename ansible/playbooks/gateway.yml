@@ -1,6 +1,11 @@
 ---
-- name: Install Docker & Docker-Compose
+- name: Install Docker and Docker-Compose
   hosts: all
   become: true
   roles:
     - geerlingguy.docker
+
+- name: Configure virtual devices
+  hosts: all
+  roles:
+    - virtual-devices

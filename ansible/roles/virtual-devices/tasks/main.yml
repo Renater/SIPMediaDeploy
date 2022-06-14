@@ -1,0 +1,17 @@
+---
+- name: Install the extra drivers for Virtual Linux kernel image
+  become: true
+  ansible.builtin.apt:
+    name: linux-image-extra-virtual
+    state: present
+    update_cache: true
+  notify: Reboot the server
+
+- name: Flush handlers to force the reload of the kernel if needed
+  ansible.builtin.meta: flush_handlers
+
+- name: Configure audio virtual devices
+  ansible.builtin.include_tasks: audio.yml
+
+- name: Configure video virtual devices
+  ansible.builtin.include_tasks: video.yml

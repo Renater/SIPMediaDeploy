@@ -1,0 +1,29 @@
+---
+- name: Install the applications that manage virtual video devices
+  become: true
+  ansible.builtin.apt:
+    name: v4l2loopback-utils
+    state: present
+    update_cache: true
+
+- name: Configure virtual video devices
+  become: true
+  ansible.builtin.copy:
+    content: options v4l2loopback devices=4 exclusive_caps=1,1,1,1
+    dest: /etc/modprobe.d/v4l2loopback.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable v4l2loopback kernel module at boot
+  become: true
+  ansible.builtin.lineinfile:
+    line: v4l2loopback
+    path: /etc/modules
+    state: present
+
+- name: Load v4l2loopback kernel module
+  become: true
+  community.general.modprobe:
+    name: v4l2loopback
+    state: present
