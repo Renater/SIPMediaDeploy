@@ -1,0 +1,86 @@
+---
+- name: Install gnupg2
+  become: true
+  ansible.builtin.apt:
+    name: gnupg2
+    update_cache: true
+
+- name: Add Kamailio GPG apt Key
+  become: true
+  ansible.builtin.apt_key:
+    url: http://deb.kamailio.org/kamailiodebkey.gpg
+    state: present
+
+- name: Add Kamailio Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb http://deb.kamailio.org/kamailio{{ kamailio_major_version }}{{ kamailio_minor_version }} {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - kamailio
+      - kamailio-tls-modules
+      - kamailio-websocket-modules
+      - kamailio-python3-modules
+      - kamailio-sqlite-modules
+      - python3-pip
+    update_cache: true
+
+- name: Install pexpect
+  become: true
+  ansible.builtin.pip:
+    name: pexpect
+
+- name: Copy configuration files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/kamailio/{{ item }}"
+    mode: "640"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+  loop:
+    - tls.cfg
+    - request_gw.py
+
+- name: Copy configuration templates
+  become: true
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/kamailio/{{ item }}"
+    mode: "640"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+  loop:
+    - kamailio.cfg
+    - kamctlrc
+    - sipmediagw.cfg
+
+- name: Create /usr/local/etc/kamailio directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/etc/kamailio
+    state: directory
+    mode: "640"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+
+- name: Check if database already exists
+  ansible.builtin.stat:
+    path: /usr/local/etc/kamailio/kamailio.sqlite
+  register: database_file
+
+- name: Create Kamailio database if not exists
+  become: true
+  ansible.builtin.expect:
+    command: /usr/sbin/kamdbctl create
+    responses:
+      (?i)Install: y
+  notify: Restart Kamailio
+  when: not database_file.stat.exists
