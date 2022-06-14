@@ -1,6 +1,6 @@
 ---
 - name: Restart Kamailio
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: kamailio
     state: restarted

@@ -1,25 +1,25 @@
 ---
 - name: Install gnupg2
   become: true
-  apt:
+  ansible.builtin.apt:
     name: gnupg2
     update_cache: true
 
 - name: Add Kamailio GPG apt Key
   become: true
-  apt_key:
+  ansible.builtin.apt_key:
     url: http://deb.kamailio.org/kamailiodebkey.gpg
     state: present
 
 - name: Add Kamailio Repository
   become: true
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb http://deb.kamailio.org/kamailio{{ kamailio_major_version }}{{ kamailio_minor_version }} {{ ansible_distribution_release }} main"
     state: present
 
 - name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name:
       - kamailio
       - kamailio-tls-modules
@@ -32,12 +32,12 @@
 
 - name: Install pexpect
   become: true
-  pip:
+  ansible.builtin.pip:
     name: pexpect
 
 - name: Copy configuration files
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/kamailio/{{ item }}"
   notify: Restart Kamailio
@@ -47,7 +47,7 @@
 
 - name: Copy configuration templates
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/kamailio/{{ item }}"
   notify: Restart Kamailio
@@ -58,19 +58,19 @@
 
 - name: Create /usr/local/etc/kamailio directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /usr/local/etc/kamailio
     state: directory
   notify: Restart Kamailio
 
 - name: Check if database already exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/etc/kamailio/kamailio.sqlite
   register: database_file
 
 - name: Create Kamailio database if not exists
   become: true
-  expect:
+  ansible.builtin.expect:
     command: /usr/sbin/kamdbctl create
     responses:
       (?i)Install: y
