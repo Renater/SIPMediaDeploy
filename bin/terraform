@@ -3,6 +3,25 @@ set -eo pipefail
 
 # Load terraform configuration
 source env.d/terraform
+export TF_VAR_coturn_name \
+    TF_VAR_coturn_image \
+    TF_VAR_coturn_flavor \
+    TF_VAR_coturn_network \
+    TF_VAR_kamailio_name \
+    TF_VAR_kamailio_image \
+    TF_VAR_kamailio_flavor \
+    TF_VAR_kamailio_network \
+    TF_VAR_key_pair \
+    OS_AUTH_URL \
+    OS_USERNAME \
+    OS_PASSWORD \
+    OS_REGION_NAME \
+    OS_PROJECT_DOMAIN_ID \
+    OS_USER_DOMAIN_NAME \
+    OS_PROJECT_ID \
+    OS_PROJECT_NAME \
+    OS_INTERFACE \
+    OS_IDENTITY_API_VERSION
 
 # Launch terraform
 cd terraform

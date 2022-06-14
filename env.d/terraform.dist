@@ -1,0 +1,29 @@
+# Coturn configuration variables
+TF_VAR_coturn_name=coturn
+TF_VAR_coturn_image="Debian 11"
+TF_VAR_coturn_flavor=s1-2
+TF_VAR_coturn_network=Ext-Net
+
+# Kamailio configuration variables
+TF_VAR_kamailio_name=kamailio
+TF_VAR_kamailio_image="Debian 11"
+TF_VAR_kamailio_flavor=s1-2
+TF_VAR_kamailio_network=Ext-Net
+
+# Administration configuration
+TF_VAR_key_pair=
+
+
+### PROVIDERS CONFIGURATIONS ###
+
+# Openstack credentials
+OS_AUTH_URL=https://auth.cloud.ovh.net/v3
+OS_USERNAME=
+OS_PASSWORD=
+OS_REGION_NAME=UK1
+OS_PROJECT_DOMAIN_ID=default
+OS_USER_DOMAIN_NAME=Default
+OS_PROJECT_ID=
+OS_PROJECT_NAME=
+OS_INTERFACE=public
+OS_IDENTITY_API_VERSION=3
