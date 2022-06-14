@@ -19,8 +19,8 @@ galaxy_info:
         - bionic
 
   galaxy_tags:
-    - SIP
-    - VoIP
-    - Kamailio
+    - sip
+    - voip
+    - kamailio
 
 dependencies: []
