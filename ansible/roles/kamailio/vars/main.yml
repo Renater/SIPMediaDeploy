@@ -2,7 +2,3 @@
 # Kamailio version
 kamailio_major_version: 5
 kamailio_minor_version: 5
-
-# Services host IP addresses
-gwlauncher_host: 192.168.92.1
-coturn_host: 192.168.92.3
