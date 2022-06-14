@@ -11,7 +11,7 @@ After setting up you ansible environment `make env.d/ansible` you should find a 
         - external_ip
         - domain_name
         - user
-        _ password
+        - password
 
 If you want to use this role independently from the whole project, this file must be placed in the correct directory and sourced before running the ansible-playbook command.
 
