@@ -1,5 +1,5 @@
 ---
-external_ip: "{{ lookup('env','external_ip') | default('<SERVER_PUBLIC_IP>',true) }}"
-domain_name: "{{ lookup('env','domain_name') | default('<DOMAIN_NAME>',true) }}"
-user: "{{ lookup('env','user') | default('<USER>',true) }}"
-password: "{{ lookup('env','password') | default('<PASSWORD>',true) }}"
+external_ip: 0.0.0.0
+domain_name: coturn.local
+user: username
+password: password

@@ -3,11 +3,7 @@ set -eo pipefail
 
 # Load ansible configuration
 source env.d/ansible
-export ANSIBLE_REMOTE_USER \
-    external_ip \
-    user \
-    password \
-    domain_name
+export ANSIBLE_REMOTE_USER
 
 # Launch ansible-playbook the Ansible directory
 cd ansible

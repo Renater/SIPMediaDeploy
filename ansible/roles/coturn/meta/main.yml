@@ -21,8 +21,8 @@ galaxy_info:
         - bionic
 
   galaxy_tags:
-    - STUN
-    - TURN
-    - Coturn
+    - stun
+    - turn
+    - coturn
 
 dependencies: []
