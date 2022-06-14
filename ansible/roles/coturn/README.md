@@ -6,7 +6,7 @@ This role allows us to provision a bare-minimum Coturn server.
 
 The variables used in the role are ones used in the Coturn configuration. These variables are defined in defaults/main.yml.
 
-After setting up you ansible environment `make env.d/ansible` you should find a file `ansible` which contains the variables used in this role:
+After setting up your Ansible environment `make env.d/ansible` you should find a file `ansible` which contains the variables used in this role:
 
         - external_ip
         - domain_name
