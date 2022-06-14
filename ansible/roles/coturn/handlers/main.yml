@@ -1,6 +1,6 @@
 ---
 - name: Restart Coturn
   become: true
-  service:
+  systemd:
     name: coturn
     state: restarted

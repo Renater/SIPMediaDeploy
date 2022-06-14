@@ -2,7 +2,7 @@
 - name: Install Coturn
   become: true
   apt:
-    pkg: coturn
+    name: coturn
     state: present
 
 - name: Ensure Coturn is enabled
@@ -11,6 +11,7 @@
     dest: /etc/default/coturn
     line: TURNSERVER_ENABLED=1
     regexp: "^#?TURNSERVER_ENABLED="
+  notify: Restart Coturn
 
 - name: Copy configuration template
   become: true
