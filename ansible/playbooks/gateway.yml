@@ -1,5 +1,6 @@
 ---
-- name: Provision the SIP Media Gateway
+- name: Install Docker & Docker-Compose
   hosts: all
+  become: true
   roles:
-    - gateway
+    - geerlingguy.docker
