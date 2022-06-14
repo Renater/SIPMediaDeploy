@@ -26,7 +26,6 @@
       - kamailio-websocket-modules
       - kamailio-python3-modules
       - kamailio-sqlite-modules
-      - default-mysql-server
       - python3-pip
     update_cache: true
 
