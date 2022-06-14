@@ -10,4 +10,3 @@ terraform/terraform.tfstate*
 # Ansible setup directories
 ansible/env/
 ansible/collections/
-ansible/inventories/main.yml

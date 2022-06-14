@@ -1,6 +1,6 @@
 ---
- - name: Restart Coturn
-   become: true
-   service:
-     name: coturn
-     state: restarted
+- name: Restart Coturn
+  become: true
+  service:
+    name: coturn
+    state: restarted

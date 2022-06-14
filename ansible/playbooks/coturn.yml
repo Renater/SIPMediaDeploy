@@ -1,5 +1,5 @@
 ---
- - name: Provision the coturn server
-   hosts: all
-   roles:
-     - coturn
+- name: Provision the coturn server
+  hosts: all
+  roles:
+    - coturn
