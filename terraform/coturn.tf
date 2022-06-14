@@ -23,6 +23,7 @@ resource "openstack_compute_instance_v2" "coturn" {
   name        = var.coturn_name
   image_name  = var.coturn_image
   flavor_name = var.coturn_flavor
+  key_pair    = var.key_pair
 
   network {
     name = var.coturn_network

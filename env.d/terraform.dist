@@ -10,6 +10,9 @@ TF_VAR_kamailio_image="Debian 11"
 TF_VAR_kamailio_flavor=s1-2
 TF_VAR_kamailio_network=Ext-Net
 
+# Administration configuration
+TF_VAR_key_pair=
+
 
 ### PROVIDERS CONFIGURATIONS ###
 
