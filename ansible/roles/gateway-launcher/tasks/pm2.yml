@@ -1,5 +1,5 @@
 ---
-- name: Ensure Node.js and npm are installed
+- name: Install Node.js and npm
   become: true
   ansible.builtin.apt:
     name:
@@ -12,14 +12,15 @@
   become: true
   npm:
     name: pm2
+    version: "{{ pm2_package_version }}"
     global: true
     state: present
 
 - name: Check if the HTTP Launcher is alive
   become: true
   ansible.builtin.command:
-    cmd: sudo -u gateway pm2 pid launcher
-    chdir: /var/launcher
+    cmd: sudo -u {{ gateway_launcher_user }} pm2 pid launcher
+    chdir: "{{ gateway_launcher_directory }}"
   check_mode: false
   register: pm2_status
   changed_when: |-

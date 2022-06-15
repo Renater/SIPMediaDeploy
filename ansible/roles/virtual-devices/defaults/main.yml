@@ -1,0 +1,3 @@
+---
+configure_audio_virtual_devices: true
+configure_video_virtual_devices: true

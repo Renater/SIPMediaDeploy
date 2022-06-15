@@ -1,22 +1,22 @@
 ---
-- name: Install pip requirements
+- name: Install pip requirements for the Python Launcher
   become: true
   ansible.builtin.pip:
-    name: web.py==0.62
+    name: web.py=={{ webpy_package_version }}
     state: present
 
-- name: Pull the Gateway Docker image
+- name: Pull the SIP Media Gateway Docker image
   become: true
   community.docker.docker_image:
     name: "{{ gateway_image }}"
     state: present
     source: pull
 
-- name: Copy the launcher deployment files
+- name: Copy the Launcher deployment files
   become: true
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: /var/launcher/{{ item }}
+    dest: "{{ gateway_launcher_directory }}/{{ item }}"
     owner: gateway
     group: gateway
     mode: 0644
@@ -25,20 +25,20 @@
     - docker-compose.yml
     - pm2-ecosystem.yml
 
-- name: Copy the launcher script
+- name: Copy the Launcher script
   become: true
   ansible.builtin.copy:
     src: SIPMediaGW.sh
-    dest: /var/launcher/SIPMediaGW.sh
+    dest: "{{ gateway_launcher_directory }}/SIPMediaGW.sh"
     owner: gateway
     group: gateway
     mode: 0755
 
-- name: Configure the launcher
+- name: Configure the Launcher
   become: true
   ansible.builtin.template:
     src: sipmediagw.cfg.j2
-    dest: /var/launcher/sipmediagw.cfg
+    dest: "{{ gateway_launcher_directory }}/sipmediagw.cfg"
     owner: gateway
     group: gateway
     mode: 0600

@@ -12,6 +12,8 @@
 
 - name: Configure audio virtual devices
   ansible.builtin.include_tasks: audio.yml
+  when: configure_audio_virtual_devices
 
 - name: Configure video virtual devices
   ansible.builtin.include_tasks: video.yml
+  when: configure_video_virtual_devices
