@@ -1,7 +1,7 @@
 ---
 - name: Install Coturn
   become: true
-  apt:
+  ansible.builtin.apt:
     name: coturn
     state: present
 
