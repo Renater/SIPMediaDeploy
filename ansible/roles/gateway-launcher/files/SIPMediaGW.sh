@@ -87,6 +87,7 @@ HOST_TZ=$(cat /etc/timezone) \
 ROOM=$room FROM=$from \
 ACCOUNT=$sipAccount \
 ID=$id \
+IMAGE=$imageName \
 docker compose -p $gwName up -d --force-recreate --remove-orphans gw
 
 check_gw_status $gwName
