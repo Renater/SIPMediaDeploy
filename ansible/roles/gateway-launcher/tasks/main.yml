@@ -1,6 +1,9 @@
 ---
-- name: Configure Python for the HTTP launcher
-  ansible.builtin.include_tasks: python.yml
+- name: Install pip requirements
+  become: true
+  ansible.builtin.pip:
+    name: web.py==0.62
+    state: present
 
 - name: Pull the Gateway Docker image
   become: true
@@ -20,6 +23,7 @@
   loop:
     - HTTPLauncher.py
     - docker-compose.yml
+    - pm2-ecosystem.yml
 
 - name: Copy the launcher script
   become: true
@@ -38,3 +42,6 @@
     owner: gateway
     group: gateway
     mode: 0600
+
+- name: Start the HTTP Launcher with pm2
+  ansible.builtin.include_tasks: pm2.yml
