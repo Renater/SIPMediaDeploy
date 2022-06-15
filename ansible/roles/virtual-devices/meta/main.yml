@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  role_name: virtual_devices
+  author: Renater
+  description: An Ansible role to configure audio and video virtual devices
+  company: Renater
+
+  license: license (Apache-2.0)
+
+  min_ansible_version: "2.7"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags:
+    - audio
+    - video
+    - virtual
+
+dependencies: []
