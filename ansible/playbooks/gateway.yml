@@ -8,14 +8,21 @@
         name: gateway
         home: /var/launcher
 
-- name: Install Docker and Docker-Compose
+- name: Install and configure Docker
   hosts: all
-  become: true
-  roles:
-    - geerlingguy.docker
-  vars:
-    docker_users:
-      - gateway
+  tasks:
+    - name: Install Docker and Docker-compose
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users:
+          - gateway
+
+    - name: Install Docker pip package
+      become: true
+      ansible.builtin.pip:
+        name: docker==5.0.3
+        state: present
 
 - name: Configure virtual devices
   hosts: all

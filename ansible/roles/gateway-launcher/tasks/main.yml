@@ -2,7 +2,14 @@
 - name: Configure Python for the HTTP launcher
   ansible.builtin.include_tasks: python.yml
 
-- name: Copy the launcher files
+- name: Pull the Gateway Docker image
+  become: true
+  community.docker.docker_image:
+    name: "{{ gateway_image }}"
+    state: present
+    source: pull
+
+- name: Copy the launcher deployment files
   become: true
   ansible.builtin.copy:
     src: "{{ item }}"
@@ -12,8 +19,16 @@
     mode: 0644
   loop:
     - HTTPLauncher.py
-    - SIPMediaGW.sh
     - docker-compose.yml
+
+- name: Copy the launcher script
+  become: true
+  ansible.builtin.copy:
+    src: SIPMediaGW.sh
+    dest: /var/launcher/SIPMediaGW.sh
+    owner: gateway
+    group: gateway
+    mode: 0755
 
 - name: Configure the launcher
   become: true

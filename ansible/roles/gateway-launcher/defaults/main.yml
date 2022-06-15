@@ -6,5 +6,5 @@ turn_port: 3478
 stun_user: dmo
 stun_password: "1234"
 sip_name: mediagw
-cpu_cores_per_gateway: 2.5
-gateway_image: just1not2/sipmediagw
+cpu_cores_per_gateway: 1.5
+gateway_image: just1not2/sipmediagw:1.0.0
