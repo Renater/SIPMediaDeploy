@@ -1,0 +1,9 @@
+---
+kamailio_host: 192.168.92.1
+sip_secret: "1234"
+turn_host: 192.168.92.1
+turn_port: 3478
+stun_user: dmo
+stun_password: "1234"
+sip_name: mediagw
+cpu_cores_per_gateway: 2.5

@@ -1,11 +1,28 @@
 ---
+- name: Configure the gateway user
+  hosts: all
+  tasks:
+    - name: Create the gateway user
+      become: true
+      ansible.builtin.user:
+        name: gateway
+        home: /var/launcher
+
 - name: Install Docker and Docker-Compose
   hosts: all
   become: true
   roles:
     - geerlingguy.docker
+  vars:
+    docker_users:
+      - gateway
 
 - name: Configure virtual devices
   hosts: all
   roles:
     - virtual-devices
+
+- name: Configure the Gateway Launcher
+  hosts: all
+  roles:
+    - gateway-launcher

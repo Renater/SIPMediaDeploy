@@ -1,0 +1,8 @@
+[sip]
+  sipSrv="{{ kamailio_host }}"
+  sipSecret="{{ sip_secret }}"
+  turnConfig="turn:{{ turn_host }}:{{ turn_port }};stunuser={{ stun_user }};stunpass={{ stun_password }}"
+
+[mediagw]
+  sipUaNamePart="{{ sip_name }}"
+  cpuCorePerGw={{ cpu_cores_per_gateway }}
