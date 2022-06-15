@@ -88,7 +88,7 @@ ROOM=$room FROM=$from \
 ACCOUNT=$sipAccount \
 ID=$id \
 IMAGE=$imageName \
-docker compose -p $gwName up -d --force-recreate --remove-orphans gw
+docker-compose -p $gwName up -d --force-recreate --remove-orphans gw
 
 check_gw_status $gwName
 sipUri=$(awk -F'<|;' '{print $2}' <<< $sipAccount)
