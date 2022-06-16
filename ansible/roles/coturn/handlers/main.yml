@@ -1,0 +1,6 @@
+---
+- name: Restart Coturn
+  become: true
+  ansible.builtin.systemd:
+    name: coturn
+    state: restarted

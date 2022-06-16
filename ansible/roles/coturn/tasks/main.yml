@@ -1,0 +1,21 @@
+---
+- name: Install Coturn
+  become: true
+  ansible.builtin.apt:
+    name: coturn
+    state: present
+
+- name: Ensure Coturn is enabled
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/default/coturn
+    line: TURNSERVER_ENABLED=1
+    regexp: "^#?TURNSERVER_ENABLED="
+  notify: Restart Coturn
+
+- name: Copy configuration template
+  become: true
+  ansible.builtin.template:
+    src: turnserver.conf.j2
+    dest: /etc/turnserver.conf
+  notify: Restart Coturn

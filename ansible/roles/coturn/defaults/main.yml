@@ -1,0 +1,6 @@
+---
+coturn_port: 3478
+external_ip: 0.0.0.0
+domain_name: coturn.local
+user: username
+password: password
