@@ -19,6 +19,21 @@ variable "coturn_network" {
   description = "The name of the network of the Coturn instance."
 }
 
+variable "coturn_port" {
+  type        = number
+  description = "The port on which the Coturn server shall be contacted"
+}
+
+variable "coturn_stun_user" {
+  type        = string
+  description = "The username of the stun server of the Coturn instance."
+}
+
+variable "coturn_stun_pass" {
+  type        = string
+  description = "The password of the stun server of the Coturn instance."
+}
+
 resource "openstack_compute_instance_v2" "coturn" {
   name        = var.coturn_name
   image_name  = var.coturn_image
