@@ -1,0 +1,9 @@
+---
+# Gateway constant variables
+gateway_launcher_user: gateway
+gateway_launcher_directory: /var/launcher
+gateway_image: "{{ gateway_image_name }}:{{ gateway_image_tag }}"
+
+# Package versions
+webpy_package_version: 0.62
+pm2_package_version: 5.2.0

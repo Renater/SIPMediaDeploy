@@ -1,5 +1,42 @@
 ---
-- name: Provision the SIP Media Gateway
+- name: Configure the SIP Media Gateway user
+  hosts: all
+  tasks:
+    - name: Create the SIP Media Gateway user
+      become: true
+      ansible.builtin.user:
+        name: gateway
+        home: /var/launcher
+
+- name: Install and configure Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Docker and Docker-compose
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users:
+          - gateway
+
+    - name: Install pip
+      become: true
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+        update_cache: true
+
+    - name: Install Docker pip package
+      ansible.builtin.pip:
+        name: docker==5.0.3
+        state: present
+
+- name: Configure virtual devices
   hosts: all
   roles:
-    - gateway
+    - virtual-devices
+
+- name: Configure the SIP Media Gateway Launcher
+  hosts: all
+  roles:
+    - gateway-launcher

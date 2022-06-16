@@ -1,0 +1,7 @@
+apps:
+  - script: HTTPLauncher.py
+    name: launcher
+    cwd: /var/launcher
+    interpreter: /usr/bin/python3
+    instances: 1
+    exec_mode: fork
