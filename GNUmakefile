@@ -21,3 +21,7 @@ install-ansible: ansible/env
 .PHONY: install-terraform
 install-terraform:
 	bin/terraform init
+
+.PHONY: build
+build:
+	bin/packer build .
