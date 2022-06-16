@@ -30,4 +30,10 @@
   notify:
     - Start the HTTP Launcher
     - Save the pm2 configuration
-    - Configure pm2 automatic start at boot
+
+- name: Check if pm2 automatic start is configured
+  ansible.builtin.stat:
+    path: /etc/systemd/system/pm2-{{ gateway_launcher_user }}.service
+  register: pm2_automatic_start_status
+  changed_when: not pm2_automatic_start_status.stat.exists
+  notify: Configure pm2 automatic start at boot
