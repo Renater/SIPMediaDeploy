@@ -7,7 +7,7 @@
 
 - name: Ensure Coturn is enabled
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/default/coturn
     line: TURNSERVER_ENABLED=1
     regexp: "^#?TURNSERVER_ENABLED="
@@ -15,7 +15,7 @@
 
 - name: Copy configuration template
   become: true
-  template:
+  ansible.builtin.template:
     src: turnserver.conf.j2
     dest: /etc/turnserver.conf
   notify: Restart Coturn
