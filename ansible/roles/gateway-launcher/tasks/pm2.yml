@@ -10,7 +10,7 @@
 
 - name: Install pm2 with npm
   become: true
-  npm:
+  community.general.npm:
     name: pm2
     version: "{{ pm2_package_version }}"
     global: true
