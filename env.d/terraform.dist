@@ -4,8 +4,8 @@ TF_VAR_coturn_image="Debian 11"
 TF_VAR_coturn_flavor=s1-2
 TF_VAR_coturn_network=Ext-Net
 
-TF_VAR_coturn_port=
-TF_VAR_coturn_stun_user=
+TF_VAR_coturn_port=3478
+TF_VAR_coturn_stun_user=coturn
 TF_VAR_coturn_stun_pass=
 
 # Kamailio configuration variables
