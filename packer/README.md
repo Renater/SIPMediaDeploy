@@ -23,8 +23,14 @@ In order to launch packer commands, the file containing the variables must be so
 
 ## Launch a packer build
 
-In order to build an image, launch the following command:
+In order to build all images, launch the following command:
 
 ```bash
 packer build .
+```
+
+In order to build the image defined by the `image.pkr.hcl` file, launch the following command:
+
+```bash
+packer build image.pkr.hcl
 ```
