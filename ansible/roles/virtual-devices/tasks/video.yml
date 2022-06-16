@@ -9,21 +9,19 @@
 - name: Configure virtual video devices
   become: true
   ansible.builtin.copy:
-    content: options v4l2loopback devices=4 exclusive_caps=1,1,1,1
+    content: >
+      options v4l2loopback
+      devices={{ video_virtual_devices }}
+      exclusive_caps={% for _ in range(video_virtual_devices) %}1{{ "," if not loop.last }}{% endfor %}
     dest: /etc/modprobe.d/v4l2loopback.conf
     owner: root
     group: root
     mode: 0644
+  notify: Reboot the server
 
 - name: Enable v4l2loopback kernel module at boot
   become: true
   ansible.builtin.lineinfile:
     line: v4l2loopback
     path: /etc/modules
-    state: present
-
-- name: Load v4l2loopback kernel module
-  become: true
-  community.general.modprobe:
-    name: v4l2loopback
     state: present

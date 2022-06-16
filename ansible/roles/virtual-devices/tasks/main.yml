@@ -7,9 +7,6 @@
     update_cache: true
   notify: Reboot the server
 
-- name: Flush handlers to force the reload of the kernel if needed
-  ansible.builtin.meta: flush_handlers
-
 - name: Configure audio virtual devices
   ansible.builtin.include_tasks: audio.yml
   when: configure_audio_virtual_devices
