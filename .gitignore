@@ -9,5 +9,5 @@ terraform/.terraform.tfstate.lock.info
 terraform/terraform.tfstate*
 
 # Ansible setup directories
+ansible/dependencies/
 ansible/env/
-ansible/collections/

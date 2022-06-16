@@ -1,0 +1,16 @@
+---
+# Kamailio configuration
+kamailio_host: 127.0.0.1
+kamailio_sip_secret: "1234"
+kamailio_sip_account_name_prefix: mediagw
+
+# Coturn configuration
+turn_host: 127.0.0.1
+turn_port: 3478
+stun_user: dmo
+stun_password: "1234"
+
+# Gateway configuration
+gateway_image_name: renater/sipmediagw
+gateway_image_tag: 1.0.0
+gateway_cpu_cores_per_gateway: 2.5

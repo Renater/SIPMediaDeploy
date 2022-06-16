@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  role_name: gateway_launcher
+  author: Renater
+  description: An Ansible role to deploy a SIP Media Gateway Launcher
+  company: Renater
+
+  license: license (Apache-2.0)
+
+  min_ansible_version: "2.7"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags:
+    - gateway
+    - sip
+
+dependencies: []

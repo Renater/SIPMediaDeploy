@@ -1,0 +1,5 @@
+---
+- name: Reboot the server
+  become: true
+  ansible.builtin.reboot:
+    reboot_timeout: 300

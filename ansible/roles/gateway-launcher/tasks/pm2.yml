@@ -1,0 +1,39 @@
+---
+- name: Install Node.js and npm
+  become: true
+  ansible.builtin.apt:
+    name:
+      - nodejs
+      - npm
+    state: present
+    update_cache: true
+
+- name: Install pm2 with npm
+  become: true
+  community.general.npm:
+    name: pm2
+    version: "{{ pm2_package_version }}"
+    global: true
+    state: present
+
+- name: Check if the HTTP Launcher is alive
+  become: true
+  ansible.builtin.command:
+    cmd: sudo -u {{ gateway_launcher_user }} pm2 pid launcher
+    chdir: "{{ gateway_launcher_directory }}"
+  check_mode: false
+  register: pm2_status
+  changed_when: |-
+    pm2_status.stdout == "" or
+    pm2_status.stdout == "0" or
+    pm2_status.stdout | length > 30
+  notify:
+    - Start the HTTP Launcher
+    - Save the pm2 configuration
+
+- name: Check if pm2 automatic start is configured
+  ansible.builtin.stat:
+    path: /etc/systemd/system/pm2-{{ gateway_launcher_user }}.service
+  register: pm2_automatic_start_status
+  changed_when: not pm2_automatic_start_status.stat.exists
+  notify: Configure pm2 automatic start at boot

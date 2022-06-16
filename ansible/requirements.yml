@@ -1,3 +1,11 @@
+---
 collections:
+  - name: community.docker
+    version: 2.6.0
+
   - name: community.general
     version: 5.1.0
+
+roles:
+  - name: geerlingguy.docker
+    version: 4.2.3

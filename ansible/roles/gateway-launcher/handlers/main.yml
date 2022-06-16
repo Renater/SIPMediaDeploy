@@ -1,0 +1,10 @@
+---
+- name: Start the HTTP Launcher
+  ansible.builtin.command: sudo -u {{ gateway_launcher_user }} pm2 start {{ gateway_launcher_directory }}/pm2-ecosystem.yml
+
+- name: Save the pm2 configuration
+  ansible.builtin.command: sudo -u {{ gateway_launcher_user }} pm2 save
+
+- name: Configure pm2 automatic start at boot
+  become: true
+  ansible.builtin.command: pm2 startup systemd -u {{ gateway_launcher_user }} --hp {{ gateway_launcher_directory }}
