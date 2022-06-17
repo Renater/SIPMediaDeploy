@@ -1,0 +1,37 @@
+---
+- name: Configure the SIP Media Gateway Scaler user
+  hosts: all
+  tasks:
+    - name: Create the Scaler user
+      become: true
+      ansible.builtin.user:
+        name: scaler
+        home: /var/scaler
+
+- name: Install and configure Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Docker and Docker-compose
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_users:
+          - scaler
+
+    - name: Install pip
+      become: true
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+        update_cache: true
+
+    - name: Install Docker pip package
+      ansible.builtin.pip:
+        name: docker==5.0.3
+        state: present
+
+- name: Provision the SIP Media Gateway scaler
+  hosts: all
+  roles:
+    - gateway-scaler
