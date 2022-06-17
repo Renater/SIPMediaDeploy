@@ -15,7 +15,7 @@ scaler_provider_configuration:
   password: ovh_password
   region_name: UK1
   project_domain_id: default
-  user_domain_id: Default
+  user_domain_name: Default
   project_id: ovh_project_id
   project_name: ovh_project_name
   interface: public
