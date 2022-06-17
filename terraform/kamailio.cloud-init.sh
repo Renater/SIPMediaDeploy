@@ -22,3 +22,5 @@ sed -i -E "s/alias=\"[^\"]*\"/alias=\"$KAMAILIO_IP\"/" /etc/kamailio/kamailio.cf
 
 sed -i -E "s/SIP_DOMAIN=[^\"]*/SIP_DOMAIN=$KAMAILIO_IP/" /etc/kamailio/kamctlrc
 sed -i -E "s/DBACCESSHOST=[^\"]*/DBACCESSHOST=$KAMAILIO_IP/" /etc/kamailio/kamctlrc
+
+systemctl restart kamailio.service
