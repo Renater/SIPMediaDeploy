@@ -23,6 +23,6 @@ scaler_provider_configuration:
   flavor: s1-2
   image: Debian 11
   network: Ext-Net
-  metadata_key: sipmediagw.group
-  metadata_value: gateway
+  metadata_key: group
+  metadata_value: scaled
   keypair: ovh_keypair

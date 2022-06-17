@@ -1,5 +1,0 @@
----
-# Gateway Scaler constant variables
-gateway_scaler_user: scaler
-gateway_scaler_directory: /var/scaler
-gateway_image: "{{ scaler_image_name }}:{{ scaler_provider }}-{{ scaler_version }}"

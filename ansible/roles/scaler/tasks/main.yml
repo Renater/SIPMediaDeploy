@@ -1,0 +1,23 @@
+---
+- name: Configure the Scaler
+  become: true
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ scaler_directory }}/.env"
+    owner: "{{ scaler_user }}"
+    group: "{{ scaler_user }}"
+    mode: 0600
+
+- name: Start the Scaler Docker container
+  become: true
+  become_user: "{{ scaler_user }}"
+  community.docker.docker_container:
+    name: scaler
+    hostname: scaler
+    image: "{{ scaler_image }}"
+    state: started
+    restart_policy: always
+    env_file: "{{ scaler_directory }}/.env"
+    user: "{{ scaler_user }}"
+    ports:
+      - "{{ scaler_http_port }}:{{ scaler_http_port }}"

@@ -31,7 +31,10 @@
         name: docker==5.0.3
         state: present
 
-- name: Provision the SIP Media Gateway scaler
+- name: Provision the SIP Media Gateway Scaler
   hosts: all
   roles:
-    - gateway-scaler
+    - scaler
+  vars:
+    metadata_key: sipmediagw.group
+    metadata_value: gateway
