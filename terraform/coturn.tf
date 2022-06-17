@@ -19,6 +19,11 @@ variable "coturn_network" {
   description = "The name of the network of the Coturn instance."
 }
 
+variable "coturn_domain_name" {
+  type        = string
+  description = "The domain name for the Coturn instance"
+}
+
 variable "coturn_port" {
   type        = number
   description = "The port on which the Coturn server shall be contacted"
@@ -39,6 +44,12 @@ resource "openstack_compute_instance_v2" "coturn" {
   image_name  = var.coturn_image
   flavor_name = var.coturn_flavor
   key_pair    = var.key_pair
+  user_data = templatefile("${path.module}/coturn.cloud-init.sh", {
+    coturn_port   = var.coturn_port,
+    coturn_domain = var.coturn_domain_name,
+    stun_user     = var.coturn_stun_user,
+    stun_pass     = var.coturn_stun_pass,
+  })
 
   network {
     name = var.coturn_network

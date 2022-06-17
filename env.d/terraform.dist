@@ -1,16 +1,17 @@
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
-TF_VAR_coturn_image="Debian 11"
+TF_VAR_coturn_image="Coturn"
 TF_VAR_coturn_flavor=s1-2
 TF_VAR_coturn_network=Ext-Net
 
+TF_VAR_coturn_domain_name="coturn.local"
 TF_VAR_coturn_port=3478
 TF_VAR_coturn_stun_user=coturn
 TF_VAR_coturn_stun_pass=
 
 # Kamailio configuration variables
 TF_VAR_kamailio_name=kamailio
-TF_VAR_kamailio_image="Debian 11"
+TF_VAR_kamailio_image="Kamailio"
 TF_VAR_kamailio_flavor=s1-2
 TF_VAR_kamailio_network=Ext-Net
 
