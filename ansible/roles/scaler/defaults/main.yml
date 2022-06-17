@@ -20,7 +20,7 @@ scaler_provider_configuration:
   project_name: ovh_project_name
   interface: public
   identity_api_version: 3
-  flavor: s1-2
+  flavor: d2-8
   image: Debian 11
   network: Ext-Net
   metadata_key: group
