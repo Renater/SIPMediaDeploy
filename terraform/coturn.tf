@@ -54,4 +54,8 @@ resource "openstack_compute_instance_v2" "coturn" {
   network {
     name = var.coturn_network
   }
+
+  metadata = {
+    "sipmediagw.group" = "coturn"
+  }
 }

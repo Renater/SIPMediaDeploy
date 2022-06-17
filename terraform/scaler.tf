@@ -28,4 +28,8 @@ resource "openstack_compute_instance_v2" "scaler" {
   network {
     name = var.scaler_network
   }
+
+  metadata = {
+    "sipmediagw.group" = "scaler"
+  }
 }

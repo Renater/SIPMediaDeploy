@@ -40,4 +40,8 @@ resource "openstack_compute_instance_v2" "kamailio" {
   network {
     name = var.kamailio_network
   }
+
+  metadata = {
+    "sipmediagw.group" = "kamailio"
+  }
 }
