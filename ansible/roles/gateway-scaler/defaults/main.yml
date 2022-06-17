@@ -1,0 +1,28 @@
+---
+# Scaler Docker image configuration
+scaler_image_name: renater/simplescalevm
+scaler_version: 0.1.0
+
+# Scaler HTTP configuration
+scaler_http_host: 0.0.0.0
+scaler_http_port: 8000
+
+# Provider configuration
+scaler_provider: openstack
+scaler_provider_configuration:
+  auth_url: https://auth.cloud.ovh.net/v3
+  username: ovh_user
+  password: ovh_password
+  region_name: UK1
+  project_domain_id: default
+  user_domain_id: Default
+  project_id: ovh_project_id
+  project_name: ovh_project_name
+  interface: public
+  identity_api_version: 3
+  flavor: s1-2
+  image: Debian 11
+  network: Ext-Net
+  metadata_key: sipmediagw.group
+  metadata_value: gateway
+  keypair: ovh_keypair
