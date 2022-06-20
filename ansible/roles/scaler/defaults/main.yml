@@ -22,6 +22,7 @@ scaler_provider_configuration:
   identity_api_version: 3
   flavor: d2-8
   image: Debian 11
+  ip_version: 4
   network: Ext-Net
   metadata_key: group
   metadata_value: scaled

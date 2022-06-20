@@ -37,6 +37,7 @@ The following keys of the `scaler_provider_configuration` may be overwritten to 
 * `identity_api_version`: version of the Openstack API.
 * `flavor`: name of the flavor to use for the virtual machines.
 * `image`: name of the image to use for the virtual machines.
+* `ip_version`: IP version to use for virtual machines.
 * `network`: name of the network to use for the virtual machines.
 * `metadata_key`: metadata key to identify the scaled server pool.
 * `metadata_value`: metadata value to identify the scaled server pool.
