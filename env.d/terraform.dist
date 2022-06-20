@@ -1,3 +1,23 @@
+### PROVIDERS CONFIGURATIONS ###
+
+# Openstack credentials
+OS_AUTH_URL=https://auth.cloud.ovh.net/v3
+OS_USERNAME=
+OS_PASSWORD=
+OS_REGION_NAME=UK1
+OS_PROJECT_DOMAIN_ID=default
+OS_USER_DOMAIN_NAME=Default
+OS_PROJECT_ID=
+OS_PROJECT_NAME=
+OS_INTERFACE=public
+OS_IDENTITY_API_VERSION=3
+
+
+### SERVICES CONFIGURATIONS ###
+
+# Administration configuration
+TF_VAR_key_pair=
+
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
 TF_VAR_coturn_image="Coturn"
@@ -19,24 +39,24 @@ TF_VAR_kamailio_sip_secret=
 
 # Scaler configuration variables
 TF_VAR_scaler_name=scaler
-TF_VAR_scaler_image=
+TF_VAR_scaler_image="Scaler"
 TF_VAR_scaler_flavor=s1-2
 TF_VAR_scaler_network=Ext-Net
 
-# Administration configuration
-TF_VAR_key_pair=
-
-
-### PROVIDERS CONFIGURATIONS ###
-
-# Openstack credentials
-OS_AUTH_URL=https://auth.cloud.ovh.net/v3
-OS_USERNAME=
-OS_PASSWORD=
-OS_REGION_NAME=UK1
-OS_PROJECT_DOMAIN_ID=default
-OS_USER_DOMAIN_NAME=Default
-OS_PROJECT_ID=
-OS_PROJECT_NAME=
-OS_INTERFACE=public
-OS_IDENTITY_API_VERSION=3
+TF_VAR_scaler_os_auth_url=${OS_AUTH_URL}
+TF_VAR_scaler_os_username=${OS_USERNAME}
+TF_VAR_scaler_os_password=${OS_PASSWORD}
+TF_VAR_scaler_os_region_name=${OS_REGION_NAME}
+TF_VAR_scaler_os_project_domain_id=${OS_PROJECT_DOMAIN_ID}
+TF_VAR_scaler_os_user_domain_name=${OS_USER_DOMAIN_NAME}
+TF_VAR_scaler_os_project_id=${OS_PROJECT_ID}
+TF_VAR_scaler_os_project_name=${OS_PROJECT_NAME}
+TF_VAR_scaler_os_interface=${OS_INTERFACE}
+TF_VAR_scaler_os_identity_api_version=${OS_IDENTITY_API_VERSION}
+TF_VAR_scaler_openstack_flavor=d2-8
+TF_VAR_scaler_openstack_image=Gateway
+TF_VAR_scaler_openstack_ip_version=4
+TF_VAR_scaler_openstack_network=Ext-Net
+TF_VAR_scaler_openstack_metadata_key=sipmediagw.group
+TF_VAR_scaler_openstack_metadata_value=gateway
+TF_VAR_scaler_openstack_keypair=${TF_VAR_key_pair}
