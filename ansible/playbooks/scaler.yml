@@ -26,9 +26,11 @@
         state: present
         update_cache: true
 
-    - name: Install Docker pip package
+    - name: Install Docker & Docker-Compose pip packages
       ansible.builtin.pip:
-        name: docker==5.0.3
+        name:
+          - docker==5.0.3
+          - docker-compose==1.29.2
         state: present
 
 - name: Deploy the SIP Media Gateway Scaler

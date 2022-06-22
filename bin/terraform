@@ -3,7 +3,18 @@ set -eo pipefail
 
 # Load terraform configuration
 source env.d/terraform
-export TF_VAR_coturn_name \
+export OS_AUTH_URL \
+    OS_USERNAME \
+    OS_PASSWORD \
+    OS_REGION_NAME \
+    OS_PROJECT_DOMAIN_ID \
+    OS_USER_DOMAIN_NAME \
+    OS_PROJECT_ID \
+    OS_PROJECT_NAME \
+    OS_INTERFACE \
+    OS_IDENTITY_API_VERSION \
+    TF_VAR_key_pair \
+    TF_VAR_coturn_name \
     TF_VAR_coturn_image \
     TF_VAR_coturn_flavor \
     TF_VAR_coturn_network \
@@ -20,17 +31,23 @@ export TF_VAR_coturn_name \
     TF_VAR_scaler_image \
     TF_VAR_scaler_flavor \
     TF_VAR_scaler_network \
-    TF_VAR_key_pair \
-    OS_AUTH_URL \
-    OS_USERNAME \
-    OS_PASSWORD \
-    OS_REGION_NAME \
-    OS_PROJECT_DOMAIN_ID \
-    OS_USER_DOMAIN_NAME \
-    OS_PROJECT_ID \
-    OS_PROJECT_NAME \
-    OS_INTERFACE \
-    OS_IDENTITY_API_VERSION
+    TF_VAR_scaler_os_auth_url \
+    TF_VAR_scaler_os_username \
+    TF_VAR_scaler_os_password \
+    TF_VAR_scaler_os_region_name \
+    TF_VAR_scaler_os_project_domain_id \
+    TF_VAR_scaler_os_user_domain_name \
+    TF_VAR_scaler_os_project_id \
+    TF_VAR_scaler_os_project_name \
+    TF_VAR_scaler_os_interface \
+    TF_VAR_scaler_os_identity_api_version \
+    TF_VAR_scaler_openstack_flavor \
+    TF_VAR_scaler_openstack_image \
+    TF_VAR_scaler_openstack_ip_version \
+    TF_VAR_scaler_openstack_network \
+    TF_VAR_scaler_openstack_metadata_key \
+    TF_VAR_scaler_openstack_metadata_value \
+    TF_VAR_scaler_openstack_keypair
 
 # Launch terraform
 cd terraform
