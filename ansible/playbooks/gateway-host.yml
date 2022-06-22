@@ -40,3 +40,5 @@
   hosts: all
   roles:
     - gateway-launcher
+  vars:
+    start_gateways_at_execution: false

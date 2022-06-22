@@ -45,3 +45,17 @@
 
 - name: Start the HTTP Launcher with pm2
   ansible.builtin.include_tasks: pm2.yml
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Launch as many Gateways as possible on host
+  ansible.builtin.uri:
+    url: http://localhost:8080/sipmediagw
+  register: launcher_response
+  until: launcher_response.failed or launcher_response.json.res != "ok"
+  retries: "{{ start_gateways_maximum }}"
+  delay: 20
+  failed_when: launcher_response.failed or (launcher_response.json.res != "ok" and launcher_response.json.type != "No free resources found")
+  changed_when: launcher_response.attempts > 1
+  when: start_gateways_at_execution
