@@ -13,7 +13,7 @@ The following requirements must be met in order for this role to work properly:
 
 ## Variables
 
-The variables defined in `defaults/main.yml` are to be overwritten by real values fetched from other instances (e.g. Coturn, Kamailio) in the stack using Terraform [Cloud-init](../../../terraform/kamailio.cloud-init.sh).
+The variables defined in `defaults/main.yml` are to be overwritten by real values fetched from other instances (e.g. Coturn, Kamailio) in the stack using Cloud-init. Note that by default, Gateways are started at execution but this behaviour can be modified by overwriting the value of `start_gateways_at_execution`.
 
 The variables defined in `vars/main.yml` are defining global constants and a few package versions: to upgrade the corresponding packages, the configuration files must also be updated.
 
