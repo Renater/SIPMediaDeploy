@@ -1,9 +1,6 @@
 [sip]
   sipSrv="{{ ansible_host }}"
   sipSecret="{{ sip_secret }}"
-  turnConfig="turn:{{ coturn_host }}:{{ coturn_port }};stunuser={{ stun_user }};stunpass={{ stun_pass }}"
 
 [mediagw]
   sipUaNamePart="mediagw"
-  cpuCorePerGw=2.5
-  launcherAPIPath="{{ gwlauncher_api }}"
