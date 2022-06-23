@@ -87,10 +87,11 @@
 
 - name: Check if column locked in table location already exists
   become: true
-  ansible.builtin.shell: sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite " SELECT COUNT(*) AS CNTREC FROM pragma_table_info('location') WHERE name='locked' "
+  ansible.builtin.shell: sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite "SELECT COUNT(*) FROM pragma_table_info('location') WHERE name='locked'"
   register: result
+  changed_when: result.stdout == "0"
 
 - name: Alter Kamailio database if not altered
-  ansible.builtin.command: sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite "alter table location add column locked INTEGER NOT NULL DEFAULT 0"
+  ansible.builtin.command: sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite "ALTER TABLE location ADD COLUMN locked INTEGER NOT NULL DEFAULT 0"
   notify: Restart Kamailio
-  when:  result.stdout == "0"
+  when: result.stdout == "0"
