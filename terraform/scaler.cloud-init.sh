@@ -21,6 +21,13 @@ OPENSTACK_METADATA_VALUE=${openstack_metadata_value}
 OPENSTACK_KEYPAIR=${openstack_keypair}
 OPENSTACK_CLOUD_INIT_FILE=${openstack_cloud_init_file}
 
+COTURN_IP=${coturn_ip}
+COTURN_PORT=${coturn_port}
+STUN_USER=${stun_user}
+STUN_PASS=${stun_pass}
+KAMAILIO_IP=${kamailio_ip}
+SIP_SECRET=${sip_secret}
+
 sed -i -E "s/^OS_AUTH_URL=.*$/OS_AUTH_URL=$OS_AUTH_URL/" .env
 sed -i -E "s/^OS_USERNAME=.*$/OS_USERNAME=$OS_USERNAME/" .env
 sed -i -E "s/^OS_PASSWORD=.*$/OS_PASSWORD=$OS_PASSWORD/" .env
@@ -39,5 +46,24 @@ sed -i -E "s/^OPENSTACK_METADATA_KEY=.*$/OPENSTACK_METADATA_KEY=$OPENSTACK_METAD
 sed -i -E "s/^OPENSTACK_METADATA_VALUE=.*$/OPENSTACK_METADATA_VALUE=$OPENSTACK_METADATA_VALUE/" .env
 sed -i -E "s/^OPENSTACK_KEYPAIR=.*$/OPENSTACK_KEYPAIR=$OPENSTACK_KEYPAIR/" .env
 sed -i -E "s/^OPENSTACK_CLOUD_INIT_FILE=.*$/OPENSTACK_CLOUD_INIT_FILE=$OPENSTACK_CLOUD_INIT_FILE/" .env
+
+if grep -q "volumes:" docker-compose.yml
+then
+    sed -i -E "s;- \"?\./cloud-init\.sh:/[^\"]*\"?$;- ./gw-cloud-init.sh:/$OPENSTACK_CLOUD_INIT_FILE;" docker-compose.yml
+else
+    echo "    volumes:
+      - ./gw-cloud-init.sh:/$OPENSTACK_CLOUD_INIT_FILE" >> docker-compose.yml
+fi
+
+echo '#!/bin/sh
+
+sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"'"$KAMAILIO_IP"'\"/" /var/launcher/sipmediagw.cfg
+sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"'"$SIP_SECRET"'\"/" /var/launcher/sipmediagw.cfg
+sed -i -E "s/turnConfig=\"turn:([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5};stunuser=[^;]*;stunpass=[^\"]*\"/turnConfig=\"turn:'"$COTURN_IP"':'"$COTURN_PORT"';stunuser='"$STUN_USER"';stunpass='"$STUN_PASS"'\"/" /var/launcher/sipmediagw.cfg
+sed -i -E "s;launcherAPIPath=\"http://([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}/[^\"]*\";launcherAPIPath=\"http://'"$GW_LAUNCHER_IP"':'"$GW_LAUNCHER_PORT$GW_LAUNCHER_API_ROUTE"'\";" /var/launcher/sipmediagw.cfg
+
+curl "http://localhost:8080/sipmediagw"
+
+' > gw-cloud-init.sh
 
 sudo -u scaler docker-compose up -d

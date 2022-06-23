@@ -115,24 +115,30 @@ resource "openstack_compute_instance_v2" "scaler" {
   flavor_name = var.scaler_flavor
   key_pair    = var.key_pair
   user_data = templatefile("${path.module}/scaler.cloud-init.sh", {
-    os_auth_url              = var.scaler_os_auth_url
-    os_username              = var.scaler_os_username
-    os_password              = var.scaler_os_password
-    os_region_name           = var.scaler_os_region_name
-    os_project_domain_id     = var.scaler_os_project_domain_id
-    os_user_domain_name      = var.scaler_os_user_domain_name
-    os_project_id            = var.scaler_os_project_id
-    os_project_name          = var.scaler_os_project_name
-    os_interface             = var.scaler_os_interface
-    os_identity_api_version  = var.scaler_os_identity_api_version
-    openstack_flavor         = var.scaler_openstack_flavor
-    openstack_image          = var.scaler_openstack_image
-    openstack_ip_version     = var.scaler_openstack_ip_version
-    openstack_network        = var.scaler_openstack_network
-    openstack_metadata_key   = var.scaler_openstack_metadata_key
-    openstack_metadata_value = var.scaler_openstack_metadata_value
-    openstack_keypair        = var.scaler_openstack_keypair
+    os_auth_url               = var.scaler_os_auth_url
+    os_username               = var.scaler_os_username
+    os_password               = var.scaler_os_password
+    os_region_name            = var.scaler_os_region_name
+    os_project_domain_id      = var.scaler_os_project_domain_id
+    os_user_domain_name       = var.scaler_os_user_domain_name
+    os_project_id             = var.scaler_os_project_id
+    os_project_name           = var.scaler_os_project_name
+    os_interface              = var.scaler_os_interface
+    os_identity_api_version   = var.scaler_os_identity_api_version
+    openstack_flavor          = var.scaler_openstack_flavor
+    openstack_image           = var.scaler_openstack_image
+    openstack_ip_version      = var.scaler_openstack_ip_version
+    openstack_network         = var.scaler_openstack_network
+    openstack_metadata_key    = var.scaler_openstack_metadata_key
+    openstack_metadata_value  = var.scaler_openstack_metadata_value
+    openstack_keypair         = var.scaler_openstack_keypair
     openstack_cloud_init_file = var.scaler_openstack_cloud_init_file
+    coturn_ip                 = openstack_compute_instance_v2.coturn.access_ip_v4,
+    coturn_port               = var.coturn_port,
+    stun_user                 = var.coturn_stun_user,
+    stun_pass                 = var.coturn_stun_pass,
+    kamailio_ip               = openstack_compute_instance_v2.kamailio.access_ip_v4,
+    sip_secret                = var.kamailio_sip_secret
   })
 
   network {
