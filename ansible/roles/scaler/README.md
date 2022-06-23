@@ -17,6 +17,13 @@ The following variables are defined in `defaults/main.yml` and may be overwritte
 * `scaler_version`: version of the Docker Scaler image.
 * `scaler_http_host`: host of the HTTP server.
 * `scaler_http_port`: port of the HTTP server.
+* `scaler_replica_capacity`: capacity of the monitored resource per replica of the virtual machines.
+* `scaler_replica_min_available_resources`: minimum amount of the monitored resource wanted at any time.
+* `scaler_replica_api_protocol`: protocol used to communicate with the virtual machines to get the scaling metrics.
+* `scaler_replica_api_port`: port of the virtual machines to get the scaling metrics.
+* `scaler_replica_api_path`: path of the virtual machines to get the scaling metrics.
+* `scaler_replica_api_capacity_key`: key containing the current capacity metric value, in the virtual machines response.
+* `scaler_replica_api_termination_key`: key containing the boolean indicating whether the host can be terminated, in the virtual machines response.
 * `scaler_provider`: provider for the scaler (only available value is `openstack`).
 * `scaler_provider_configuration`: configuration of the provider; each provider has its own configuration which is defined in the subsections below.
 
