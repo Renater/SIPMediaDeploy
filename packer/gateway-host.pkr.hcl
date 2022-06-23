@@ -19,7 +19,7 @@ variable "GW_HOST_SSH_USERNAME" {
 }
 
 source "openstack" "gateway-host" {
-  image_name        = "Gateway Host"
+  image_name        = "GatewayHost"
   ssh_username      = var.GW_HOST_SSH_USERNAME
   source_image_name = var.GW_HOST_SOURCE
   flavor            = var.GW_HOST_FLAVOR
