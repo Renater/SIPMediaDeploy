@@ -12,9 +12,9 @@ scaler_replica_capacity: 1
 scaler_replica_min_available_resources: 3
 scaler_replica_api_protocol: http
 scaler_replica_api_port: 8080
-scaler_replica_api_path: /status
-scaler_replica_api_capacity_key: readyToCall
-scaler_replica_api_termination_key: callsEnded
+scaler_replica_api_path: /
+scaler_replica_api_capacity_key: capacity
+scaler_replica_api_termination_key: termination
 
 # Provider configuration
 scaler_provider: openstack
