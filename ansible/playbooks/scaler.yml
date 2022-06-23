@@ -59,3 +59,4 @@
       metadata_key: sipmediagw.group
       metadata_value: gateway
       keypair: ovh_keypair
+      cloud_init_file: cloud-init.sh
