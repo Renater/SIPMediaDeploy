@@ -16,5 +16,5 @@ gateway_image_tag: 1.0.0
 gateway_cpu_cores_per_gateway: 2.5
 
 # Option to start gateways at the end of the execution
-start_gateways_at_execution: true
+start_gateways_at_execution: false
 start_gateways_maximum: 8
