@@ -42,6 +42,7 @@ The following keys of the `scaler_provider_configuration` may be overwritten to 
 * `metadata_key`: metadata key to identify the scaled server pool.
 * `metadata_value`: metadata value to identify the scaled server pool.
 * `keypair`: name of the keypair that is provisioned on the virtual machines.
+* `cloud_init_file`: path to the cloud-init file that is used as user-data on the virtual machines.
 
 
 ## Example Playbook

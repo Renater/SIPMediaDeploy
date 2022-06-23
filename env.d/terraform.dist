@@ -60,3 +60,4 @@ TF_VAR_scaler_openstack_network=Ext-Net
 TF_VAR_scaler_openstack_metadata_key=sipmediagw.group
 TF_VAR_scaler_openstack_metadata_value=gateway
 TF_VAR_scaler_openstack_keypair=${TF_VAR_key_pair}
+TF_VAR_scaler_openstack_cloud_init_file=gateway-host.cloud-init.sh
