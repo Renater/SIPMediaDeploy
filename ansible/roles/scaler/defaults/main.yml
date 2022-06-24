@@ -1,7 +1,7 @@
 ---
 # Scaler Docker image configuration
 scaler_image_name: renater/simplescalevm
-scaler_version: 1.1.0
+scaler_version: 1.1.1
 
 # Scaler HTTP configuration
 scaler_http_host: 0.0.0.0
