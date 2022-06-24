@@ -19,7 +19,6 @@ OPENSTACK_NETWORK=${openstack_network}
 OPENSTACK_METADATA_KEY=${openstack_metadata_key}
 OPENSTACK_METADATA_VALUE=${openstack_metadata_value}
 OPENSTACK_KEYPAIR=${openstack_keypair}
-OPENSTACK_CLOUD_INIT_FILE=${openstack_cloud_init_file}
 
 COTURN_IP=${coturn_ip}
 COTURN_PORT=${coturn_port}
