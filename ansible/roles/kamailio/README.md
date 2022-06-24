@@ -5,7 +5,9 @@ Provision a Kamailio server instance as part of the [SIP Media Gateway](https://
 
 ## Variables
 
-The variables defined in defaults/main.yml are to be overwritten by real values fetched from other instances (e.g. Coturn) in the stack using Terraform [Cloud-init](../../../terraform/kamailio.cloud-init.sh).
+The following variables are defined in `defaults/main.yml` and are to be overwritten:
+* `sip_secret`: SIP secret shared between the Kamailio and the Gateways.
+* `gateway_name_pattern`: pattern to determine the Gateway instances (their name should match `*<gateway_name_pattern>*`).
 
 The variables defined in vars/main.yml are defining which version of Kamailio will be running after the role is used: to upgrade versions, the configuration files must also be updated.
 

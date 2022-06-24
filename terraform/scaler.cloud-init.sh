@@ -53,7 +53,6 @@ sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"'"$KAMAILIO_IP"'\"/
 sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"'"$SIP_SECRET"'\"/" /var/launcher/sipmediagw.cfg
 sed -i -E "s/turnConfig=\"turn:([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5};stunuser=[^;]*;stunpass=[^\"]*\"/turnConfig=\"turn:'"$COTURN_IP"':'"$COTURN_PORT"';stunuser='"$STUN_USER"';stunpass='"$STUN_PASS"'\"/" /var/launcher/sipmediagw.cfg
 sed -i -E "s/sipUaNamePart=\"[^\"]*\"/sipUaNamePart=\"mediagw.$GATEWAY_HOST_IP\"/" /var/launcher/sipmediagw.cfg
-sed -i -E "s;launcherAPIPath=\"http://([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}/[^\"]*\";launcherAPIPath=\"http://'"$GW_LAUNCHER_IP"':'"$GW_LAUNCHER_PORT$GW_LAUNCHER_API_ROUTE"'\";" /var/launcher/sipmediagw.cfg
 
 curl "http://localhost:8080/sipmediagw"
 
