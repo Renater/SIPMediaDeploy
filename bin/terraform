@@ -47,8 +47,7 @@ export OS_AUTH_URL \
     TF_VAR_scaler_openstack_network \
     TF_VAR_scaler_openstack_metadata_key \
     TF_VAR_scaler_openstack_metadata_value \
-    TF_VAR_scaler_openstack_keypair \
-    TF_VAR_scaler_openstack_cloud_init_file
+    TF_VAR_scaler_openstack_keypair
 
 # Launch terraform
 cd terraform

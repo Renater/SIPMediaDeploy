@@ -36,4 +36,5 @@ scaler_provider_configuration:
   metadata_key: group
   metadata_value: scaled
   keypair: ovh_keypair
+  use_cloud_init: false
   cloud_init_file: cloud-init.sh

@@ -35,8 +35,20 @@
 
 - name: Deploy the SIP Media Gateway Scaler
   hosts: all
-  roles:
-    - scaler
+  tasks:
+    - name: Create cloud-init.sh file
+      become_user: scaler
+      become: true
+      ansible.builtin.copy:
+        dest: /var/scaler/cloud-init.sh
+        content: |
+          #!/bin/sh
+
+          echo "Cloud-init executed with success" > /cloud-init.log
+
+    - name: Install the scaler
+      ansible.builtin.include_role:
+        name: scaler
   vars:
     scaler_replica_api_path: /status
     scaler_replica_api_capacity_key: readyToCall
@@ -59,4 +71,5 @@
       metadata_key: sipmediagw.group
       metadata_value: gateway
       keypair: ovh_keypair
+      use_cloud_init: true
       cloud_init_file: cloud-init.sh
