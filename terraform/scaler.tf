@@ -104,11 +104,6 @@ variable "scaler_openstack_keypair" {
   description = "The name of the keypair that is provisioned on the virtual machines."
 }
 
-variable "scaler_openstack_cloud_init_file" {
-  type        = string
-  description = "The path to the cloud-init file that is used as user-data on the virtual machines."
-}
-
 resource "openstack_compute_instance_v2" "scaler" {
   name        = var.scaler_name
   image_name  = var.scaler_image
@@ -132,7 +127,6 @@ resource "openstack_compute_instance_v2" "scaler" {
     openstack_metadata_key    = var.scaler_openstack_metadata_key
     openstack_metadata_value  = var.scaler_openstack_metadata_value
     openstack_keypair         = var.scaler_openstack_keypair
-    openstack_cloud_init_file = var.scaler_openstack_cloud_init_file
     coturn_ip                 = openstack_compute_instance_v2.coturn.access_ip_v4,
     coturn_port               = var.coturn_port,
     stun_user                 = var.coturn_stun_user,

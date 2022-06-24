@@ -45,15 +45,6 @@ sed -i -E "s/^OPENSTACK_NETWORK=.*$/OPENSTACK_NETWORK=$OPENSTACK_NETWORK/" .env
 sed -i -E "s/^OPENSTACK_METADATA_KEY=.*$/OPENSTACK_METADATA_KEY=$OPENSTACK_METADATA_KEY/" .env
 sed -i -E "s/^OPENSTACK_METADATA_VALUE=.*$/OPENSTACK_METADATA_VALUE=$OPENSTACK_METADATA_VALUE/" .env
 sed -i -E "s/^OPENSTACK_KEYPAIR=.*$/OPENSTACK_KEYPAIR=$OPENSTACK_KEYPAIR/" .env
-sed -i -E "s/^OPENSTACK_CLOUD_INIT_FILE=.*$/OPENSTACK_CLOUD_INIT_FILE=$OPENSTACK_CLOUD_INIT_FILE/" .env
-
-if grep -q "volumes:" docker-compose.yml
-then
-    sed -i -E "s;- \"?\./cloud-init\.sh:/[^\"]*\"?$;- ./gw-cloud-init.sh:/$OPENSTACK_CLOUD_INIT_FILE;" docker-compose.yml
-else
-    echo "    volumes:
-      - ./gw-cloud-init.sh:/$OPENSTACK_CLOUD_INIT_FILE" >> docker-compose.yml
-fi
 
 echo '#!/bin/sh
 
@@ -67,6 +58,6 @@ sed -i -E "s;launcherAPIPath=\"http://([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5}/[^\
 
 curl "http://localhost:8080/sipmediagw"
 
-' > gw-cloud-init.sh
+' > cloud-init.sh
 
 sudo -u scaler docker-compose up -d
