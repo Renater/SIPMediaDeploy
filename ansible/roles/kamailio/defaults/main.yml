@@ -1,2 +1,3 @@
 ---
 sip_secret: "1234"
+gateway_name_pattern: mediagw
