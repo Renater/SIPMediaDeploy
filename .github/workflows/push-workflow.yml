@@ -1,0 +1,21 @@
+name: Push Workflow
+
+on: [push]
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r ansible/requirements.txt
+          cd ansible/ && ansible-galaxy install -r requirements.yml
+      - name: Analyse the code with Ansible Lint
+        run: |
+          cd ansible/ && ansible-lint
