@@ -14,6 +14,7 @@ export OS_AUTH_URL \
     OS_INTERFACE \
     OS_IDENTITY_API_VERSION \
     TF_VAR_key_pair \
+    TF_VAR_gateway_webrtc_domain \
     TF_VAR_coturn_name \
     TF_VAR_coturn_image \
     TF_VAR_coturn_flavor \

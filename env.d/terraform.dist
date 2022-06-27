@@ -18,6 +18,9 @@ OS_IDENTITY_API_VERSION=3
 # Administration configuration
 TF_VAR_key_pair=
 
+# Gateway configuration
+TF_VAR_gateway_webrtc_domain=
+
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
 TF_VAR_coturn_image="Coturn"
