@@ -37,7 +37,6 @@
   hosts: all
   tasks:
     - name: Create cloud-init.sh file
-      become_user: scaler
       become: true
       ansible.builtin.copy:
         dest: /var/scaler/cloud-init.sh
@@ -45,6 +44,9 @@
           #!/bin/sh
 
           echo "Cloud-init executed with success" > /cloud-init.log
+        owner: scaler
+        group: scaler
+        mode: 0600
 
     - name: Install the scaler
       ansible.builtin.include_role:

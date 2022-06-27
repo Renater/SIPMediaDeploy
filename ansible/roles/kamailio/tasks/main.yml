@@ -47,8 +47,8 @@
 - name: Copy configuration templates
   become: true
   ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "/etc/kamailio/{{ item }}"
+    src: "{{ kamailio_file }}.j2"
+    dest: "/etc/kamailio/{{ kamailio_file }}"
     mode: "640"
     owner: kamailio
     group: kamailio
@@ -57,6 +57,8 @@
     - kamailio.cfg
     - kamctlrc
     - sipmediagw.cfg
+  loop_control:
+    loop_var: kamailio_file
 
 - name: Configure TLS if enabled
   ansible.builtin.include_tasks: tls.yml
@@ -88,7 +90,9 @@
 
 - name: Check if column locked in table location already exists
   become: true
-  ansible.builtin.command: sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite "SELECT COUNT(*) FROM pragma_table_info('location') WHERE name='locked'"
+  ansible.builtin.command: >-
+    sudo -u kamailio sqlite3 /usr/local/etc/kamailio/kamailio.sqlite
+    "SELECT COUNT(*) FROM pragma_table_info('location') WHERE name='locked'"
   register: result
   changed_when: false
 

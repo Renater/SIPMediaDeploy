@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: Kamailio
+  role_name: kamailio
   author: Renater
   description: An Ansible role to deploy and configure a Kamailio server
   company: Renater

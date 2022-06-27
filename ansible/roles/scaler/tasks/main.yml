@@ -2,8 +2,8 @@
 - name: Configure the Scaler
   become: true
   ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "{{ scaler_directory }}/{{ item.dest }}"
+    src: "{{ scaler_file.src }}"
+    dest: "{{ scaler_directory }}/{{ scaler_file.dest }}"
     owner: "{{ scaler_user }}"
     group: "{{ scaler_user }}"
     mode: 0600
@@ -12,6 +12,8 @@
       dest: .env
     - src: docker-compose.yml.j2
       dest: docker-compose.yml
+  loop_control:
+    loop_var: scaler_file
 
 - name: Start the Scaler Docker container
   become: true

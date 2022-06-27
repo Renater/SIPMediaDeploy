@@ -6,6 +6,7 @@
 exclude_paths:
   - dependencies/
   - env/
+  - roles/*/files/*
 # parseable: true
 # quiet: true
 # verbosity: 1
