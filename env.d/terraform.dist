@@ -39,6 +39,7 @@ TF_VAR_kamailio_flavor=s1-2
 TF_VAR_kamailio_network=Ext-Net
 
 TF_VAR_kamailio_sip_secret=
+TF_VAR_kamailio_domain_name=
 
 # Scaler configuration variables
 TF_VAR_scaler_name=scaler
