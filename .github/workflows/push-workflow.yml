@@ -19,3 +19,9 @@ jobs:
       - name: Analyse the code with Ansible Lint
         run: |
           cd ansible/ && ansible-lint
+  terraform-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Analyse the code with Terraform Lint
+        uses: actionshub/terraform-lint@main
