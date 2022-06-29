@@ -19,7 +19,7 @@ OS_IDENTITY_API_VERSION=3
 TF_VAR_key_pair=
 
 # Gateway configuration
-TF_VAR_gateway_webrtc_domain=
+TF_VAR_gateway_webrtc_domain="meet.jit.si"
 
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
