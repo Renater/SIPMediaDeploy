@@ -34,6 +34,16 @@ variable "coturn_stun_pass" {
   description = "The password of the stun server of the Coturn instance."
 }
 
+resource "openstack_networking_port_v2" "coturn" {
+  name       = "coturn"
+  network_id = openstack_networking_network_v2.internal.id
+  admin_state_up = "true"
+
+  fixed_ip {
+    subnet_id = openstack_networking_subnet_v2.internal_v4.id
+  }
+}
+
 resource "openstack_compute_instance_v2" "coturn" {
   name        = var.coturn_name
   image_name  = var.coturn_image
@@ -47,10 +57,20 @@ resource "openstack_compute_instance_v2" "coturn" {
   })
 
   network {
-    name = var.external_network
+    port = openstack_networking_port_v2.coturn.id
   }
 
   metadata = {
     "sipmediagw.group" = "coturn"
   }
+}
+
+resource "openstack_networking_floatingip_v2" "coturn" {
+  pool = var.external_network
+  description = "coturn"
+}
+
+resource "openstack_networking_floatingip_associate_v2" "coturn" {
+  floating_ip = openstack_networking_floatingip_v2.coturn.address
+  port_id     = openstack_networking_port_v2.coturn.id
 }
