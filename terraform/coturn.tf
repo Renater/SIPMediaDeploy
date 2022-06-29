@@ -14,11 +14,6 @@ variable "coturn_flavor" {
   description = "The name of the flavor of the Coturn instance."
 }
 
-variable "coturn_network" {
-  type        = string
-  description = "The name of the network of the Coturn instance."
-}
-
 variable "coturn_domain_name" {
   type        = string
   description = "The domain name for the Coturn instance"
@@ -52,7 +47,7 @@ resource "openstack_compute_instance_v2" "coturn" {
   })
 
   network {
-    name = var.coturn_network
+    name = var.external_network
   }
 
   metadata = {

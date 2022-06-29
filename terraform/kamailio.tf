@@ -14,11 +14,6 @@ variable "kamailio_flavor" {
   description = "The name of the flavor of the Kamailio instance."
 }
 
-variable "kamailio_network" {
-  type        = string
-  description = "The name of the network of the Kamailio instance."
-}
-
 variable "kamailio_sip_secret" {
   type        = string
   description = "The secret shared by the instances using the SIP protocol."
@@ -40,7 +35,7 @@ resource "openstack_compute_instance_v2" "kamailio" {
   })
 
   network {
-    name = var.kamailio_network
+    name = var.external_network
   }
 
   metadata = {

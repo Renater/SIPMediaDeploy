@@ -14,11 +14,6 @@ variable "scaler_flavor" {
   description = "The name of the flavor of the scaler instance."
 }
 
-variable "scaler_network" {
-  type        = string
-  description = "The name of the network of the scaler instance."
-}
-
 variable "scaler_available_gateways_minimum" {
   type        = number
   description = "The minimum number of available gateways at any time."
@@ -144,7 +139,7 @@ resource "openstack_compute_instance_v2" "scaler" {
   })
 
   network {
-    name = var.scaler_network
+    name = var.external_network
   }
 
   metadata = {
