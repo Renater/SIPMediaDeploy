@@ -1,0 +1,7 @@
+apps:
+  - script: webserver.py
+    name:  webserver
+    cwd: "{{ webserver_directory }}"
+    interpreter: /usr/bin/python3
+    instances: 1
+    exec_mode: fork

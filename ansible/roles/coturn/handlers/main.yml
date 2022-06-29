@@ -4,3 +4,13 @@
   ansible.builtin.systemd:
     name: coturn
     state: restarted
+
+- name: Start the webserver
+  ansible.builtin.command: sudo -u {{ webserver_user }} pm2 start {{ webserver_directory }}/pm2-ecosystem.yml
+
+- name: Save the pm2 configuration
+  ansible.builtin.command: sudo -u {{ webserver_user }} pm2 save
+
+- name: Configure pm2 automatic start at boot
+  become: true
+  ansible.builtin.command: pm2 startup systemd -u {{ webserver_user }} --hp {{ webserver_directory }}

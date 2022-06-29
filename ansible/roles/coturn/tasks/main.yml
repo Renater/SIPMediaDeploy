@@ -1,4 +1,23 @@
 ---
+- name: Create the Coturn user
+  become: true
+  ansible.builtin.user:
+    name: "{{ webserver_user }}"
+    home: "{{ webserver_directory }}"
+
+- name: Install pip
+  become: true
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+    update_cache: true
+
+- name: Install pip requirements for the webserver
+  become: true
+  ansible.builtin.pip:
+    name: web.py=={{ webpy_package_version }}
+    state: present
+
 - name: Install Coturn
   become: true
   ansible.builtin.apt:
@@ -18,4 +37,28 @@
   ansible.builtin.template:
     src: turnserver.conf.j2
     dest: /etc/turnserver.conf
+    owner: turnserver
+    group: turnserver
+    mode: 0600
   notify: Restart Coturn
+
+- name: Copy the webserver deployment file
+  become: true
+  ansible.builtin.copy:
+    src: webserver.py
+    dest: "{{ webserver_directory }}/webserver.py"
+    owner: "{{ webserver_user }}"
+    group: "{{ webserver_user }}"
+    mode: 0600
+
+- name: Copy the webserver deployment template
+  become: true
+  ansible.builtin.template:
+    src: pm2-ecosystem.yml
+    dest: "{{ webserver_directory }}/pm2-ecosystem.yml"
+    owner: "{{ webserver_user }}"
+    group: "{{ webserver_user }}"
+    mode: 0600
+
+- name: Start the webserver with pm2
+  ansible.builtin.include_tasks: pm2.yml

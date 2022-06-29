@@ -1,0 +1,8 @@
+---
+# Gateway constant variables
+webserver_user: coturn
+webserver_directory: /var/coturn
+
+# Package versions
+webpy_package_version: 0.62
+pm2_package_version: 5.2.0
