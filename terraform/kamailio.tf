@@ -22,6 +22,7 @@ variable "kamailio_sip_secret" {
 variable "kamailio_domain_name" {
   type        = string
   description = "The domain name linked to the Kamailio's IP address."
+}
 
 resource "openstack_networking_port_v2" "kamailio" {
   name       = "kamailio"
