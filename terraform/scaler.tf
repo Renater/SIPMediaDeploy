@@ -149,11 +149,11 @@ resource "openstack_compute_instance_v2" "scaler" {
     openstack_metadata_key          = var.scaler_openstack_metadata_key
     openstack_metadata_value        = var.scaler_openstack_metadata_value
     openstack_keypair               = var.scaler_openstack_keypair
-    coturn_ip                       = openstack_compute_instance_v2.coturn.access_ip_v4
+    coturn_ip                       = openstack_networking_floatingip_v2.coturn.address
     coturn_port                     = var.coturn_port
     stun_user                       = var.coturn_stun_user
     stun_pass                       = var.coturn_stun_pass
-    kamailio_ip                     = openstack_compute_instance_v2.kamailio.access_ip_v4
+    kamailio_ip                     = openstack_networking_floatingip_v2.kamailio.address
     sip_secret                      = var.kamailio_sip_secret
     webrtc_domain                   = var.gateway_webrtc_domain
   })
