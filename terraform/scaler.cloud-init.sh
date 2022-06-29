@@ -26,6 +26,7 @@ STUN_USER=${stun_user}
 STUN_PASS=${stun_pass}
 KAMAILIO_IP=${kamailio_ip}
 SIP_SECRET=${sip_secret}
+WEBRTC_DOMAIN=${webrtc_domain}
 
 sed -i -E "s/^OS_AUTH_URL=.*$/OS_AUTH_URL=$OS_AUTH_URL/" .env
 sed -i -E "s/^OS_USERNAME=.*$/OS_USERNAME=$OS_USERNAME/" .env
@@ -53,6 +54,8 @@ sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"'"$KAMAILIO_IP"'\"/
 sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"'"$SIP_SECRET"'\"/" /var/launcher/sipmediagw.cfg
 sed -i -E "s/turnConfig=\"turn:([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5};stunuser=[^;]*;stunpass=[^\"]*\"/turnConfig=\"turn:'"$COTURN_IP"':'"$COTURN_PORT"';stunuser='"$STUN_USER"';stunpass='"$STUN_PASS"'\"/" /var/launcher/sipmediagw.cfg
 sed -i -E "s/sipUaNamePart=\"[^\"]*\"/sipUaNamePart=\"mediagw.$GATEWAY_HOST_IP\"/" /var/launcher/sipmediagw.cfg
+
+sed -i -E "s/WEBRTC_DOMAIN: \"[^\"]*\"/WEBRTC_DOMAIN: \"'"$WEBRTC_DOMAIN"'\"/" /var/launcher/docker-compose.yml
 
 curl "http://localhost:8080/sipmediagw"
 

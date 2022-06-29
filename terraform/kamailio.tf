@@ -24,13 +24,19 @@ variable "kamailio_sip_secret" {
   description = "The secret shared by the instances using the SIP protocol."
 }
 
+variable "kamailio_domain_name" {
+  type        = string
+  description = "The domain name linked to the Kamailio's IP address."
+}
+
 resource "openstack_compute_instance_v2" "kamailio" {
   name        = var.kamailio_name
   image_name  = var.kamailio_image
   flavor_name = var.kamailio_flavor
   key_pair    = var.key_pair
   user_data = templatefile("${path.module}/kamailio.cloud-init.sh", {
-    sip_secret = var.kamailio_sip_secret
+    sip_secret      = var.kamailio_sip_secret
+    kamailio_domain = var.kamailio_domain_name
   })
 
   network {

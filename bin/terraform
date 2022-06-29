@@ -14,6 +14,7 @@ export OS_AUTH_URL \
     OS_INTERFACE \
     OS_IDENTITY_API_VERSION \
     TF_VAR_key_pair \
+    TF_VAR_gateway_webrtc_domain \
     TF_VAR_coturn_name \
     TF_VAR_coturn_image \
     TF_VAR_coturn_flavor \
@@ -27,6 +28,7 @@ export OS_AUTH_URL \
     TF_VAR_kamailio_flavor \
     TF_VAR_kamailio_network \
     TF_VAR_kamailio_sip_secret \
+    TF_VAR_kamailio_domain_name \
     TF_VAR_scaler_name \
     TF_VAR_scaler_image \
     TF_VAR_scaler_flavor \
