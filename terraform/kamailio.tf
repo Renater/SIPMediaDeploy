@@ -25,13 +25,23 @@ variable "kamailio_domain_name" {
 }
 
 resource "openstack_networking_port_v2" "kamailio" {
-  name       = "kamailio"
-  network_id = openstack_networking_network_v2.internal.id
+  name           = "kamailio"
+  network_id     = openstack_networking_network_v2.internal.id
   admin_state_up = "true"
 
   fixed_ip {
     subnet_id = openstack_networking_subnet_v2.internal_v4.id
   }
+}
+
+resource "openstack_networking_floatingip_v2" "kamailio" {
+  pool        = var.external_network
+  description = "kamailio"
+}
+
+resource "openstack_networking_floatingip_associate_v2" "kamailio" {
+  floating_ip = openstack_networking_floatingip_v2.kamailio.address
+  port_id     = openstack_networking_port_v2.kamailio.id
 }
 
 resource "openstack_compute_instance_v2" "kamailio" {
@@ -51,14 +61,4 @@ resource "openstack_compute_instance_v2" "kamailio" {
   metadata = {
     "sipmediagw.group" = "kamailio"
   }
-}
-
-resource "openstack_networking_floatingip_v2" "kamailio" {
-  pool = var.external_network
-  description = "kamailio"
-}
-
-resource "openstack_networking_floatingip_associate_v2" "kamailio" {
-  floating_ip = openstack_networking_floatingip_v2.kamailio.address
-  port_id     = openstack_networking_port_v2.kamailio.id
 }

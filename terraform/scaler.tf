@@ -105,13 +105,23 @@ variable "scaler_openstack_keypair" {
 }
 
 resource "openstack_networking_port_v2" "scaler" {
-  name       = "scaler"
-  network_id = openstack_networking_network_v2.internal.id
+  name           = "scaler"
+  network_id     = openstack_networking_network_v2.internal.id
   admin_state_up = "true"
 
   fixed_ip {
     subnet_id = openstack_networking_subnet_v2.internal_v4.id
   }
+}
+
+resource "openstack_networking_floatingip_v2" "scaler" {
+  pool        = var.external_network
+  description = "scaler"
+}
+
+resource "openstack_networking_floatingip_associate_v2" "scaler" {
+  floating_ip = openstack_networking_floatingip_v2.scaler.address
+  port_id     = openstack_networking_port_v2.scaler.id
 }
 
 resource "openstack_compute_instance_v2" "scaler" {
@@ -155,14 +165,4 @@ resource "openstack_compute_instance_v2" "scaler" {
   metadata = {
     "sipmediagw.group" = "scaler"
   }
-}
-
-resource "openstack_networking_floatingip_v2" "scaler" {
-  pool = var.external_network
-  description = "scaler"
-}
-
-resource "openstack_networking_floatingip_associate_v2" "scaler" {
-  floating_ip = openstack_networking_floatingip_v2.scaler.address
-  port_id     = openstack_networking_port_v2.scaler.id
 }
