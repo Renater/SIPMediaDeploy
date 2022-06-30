@@ -1,0 +1,4 @@
+---
+webserver_user: user
+webserver_directory: /var/user
+service_name: service

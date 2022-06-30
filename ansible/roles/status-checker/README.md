@@ -1,0 +1,22 @@
+# Status-checker
+
+This role allows us to provision a webserver that provides a status check for a given service.
+
+## Variables
+
+The variables defines in `defaults/main.yml` are to be overwritten by real values :
+* `webserver_user`: The user used to set up the webserver .
+* `webserver_directory`: The working directory for the webserver.
+* `service_name`: The service on which the status check is to be performed .
+
+The variables defined in `vars/main.yml` are defining a few package versions .
+
+## Example Playbook
+
+To use this role in a playbook you can add
+
+```yaml
+- hosts: all
+  roles:
+    - status-checker
+```

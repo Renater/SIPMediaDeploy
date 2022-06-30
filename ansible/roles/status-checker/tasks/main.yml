@@ -1,0 +1,37 @@
+---
+- name: Create the webserver user
+  become: true
+  ansible.builtin.user:
+    name: "{{ webserver_user }}"
+    home: "{{ webserver_directory }}"
+
+- name: Install pip
+  become: true
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+    update_cache: true
+
+- name: Install pip requirements for the webserver
+  become: true
+  ansible.builtin.pip:
+    name: web.py=={{ webpy_package_version }}
+    state: present
+
+- name: Copy the webserver deployment templates
+  become: true
+  ansible.builtin.template:
+    src: "{{ webserver_deployement_template }}.j2"
+    dest: "{{ webserver_directory }}/{{ webserver_deployement_template }}"
+    owner: "{{ webserver_user }}"
+    group: "{{ webserver_user }}"
+    mode: 0600
+  loop:
+    - webserver.py
+    - pm2-ecosystem.yml
+  loop_control:
+    loop_var: webserver_deployement_template
+
+
+- name: Start the webserver with pm2
+  ansible.builtin.include_tasks: pm2.yml
