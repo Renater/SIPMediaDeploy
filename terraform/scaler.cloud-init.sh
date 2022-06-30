@@ -2,6 +2,8 @@
 
 cd /var/scaler
 
+REPLICA_CAPACITY=${replica_capacity}
+REPLICA_MIN_AVAILABLE_RESOURCES=${replica_min_available_resources}
 OS_AUTH_URL=${os_auth_url}
 OS_USERNAME=${os_username}
 OS_PASSWORD=${os_password}
@@ -28,6 +30,8 @@ KAMAILIO_IP=${kamailio_ip}
 SIP_SECRET=${sip_secret}
 WEBRTC_DOMAIN=${webrtc_domain}
 
+sed -i -E "s/^REPLICA_CAPACITY=[0-9]*$/REPLICA_CAPACITY=$REPLICA_CAPACITY/" .env
+sed -i -E "s/^REPLICA_MIN_AVAILABLE_RESOURCES=[0-9]*$/REPLICA_MIN_AVAILABLE_RESOURCES=$REPLICA_MIN_AVAILABLE_RESOURCES/" .env
 sed -i -E "s/^OS_AUTH_URL=.*$/OS_AUTH_URL=$OS_AUTH_URL/" .env
 sed -i -E "s/^OS_USERNAME=.*$/OS_USERNAME=$OS_USERNAME/" .env
 sed -i -E "s/^OS_PASSWORD=.*$/OS_PASSWORD=$OS_PASSWORD/" .env

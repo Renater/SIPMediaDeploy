@@ -20,6 +20,7 @@ TF_VAR_key_pair=
 
 # Gateway configuration
 TF_VAR_gateway_webrtc_domain="meet.jit.si"
+TF_VAR_gateway_host_capacity=1
 
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
@@ -47,6 +48,7 @@ TF_VAR_scaler_image="Scaler"
 TF_VAR_scaler_flavor=s1-2
 TF_VAR_scaler_network=Ext-Net
 
+TF_VAR_scaler_available_gateways_minimum=3
 TF_VAR_scaler_os_auth_url=${OS_AUTH_URL}
 TF_VAR_scaler_os_username=${OS_USERNAME}
 TF_VAR_scaler_os_password=${OS_PASSWORD}
