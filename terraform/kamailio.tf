@@ -52,6 +52,7 @@ resource "openstack_compute_instance_v2" "kamailio" {
   user_data = templatefile("${path.module}/kamailio.cloud-init.sh", {
     sip_secret      = var.kamailio_sip_secret
     kamailio_domain = var.kamailio_domain_name
+    kamailio_ip     = openstack_networking_floatingip_v2.kamailio.address
   })
 
   network {
