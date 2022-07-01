@@ -27,8 +27,8 @@
 
 - name: Copy the Launcher script
   become: true
-  ansible.builtin.copy:
-    src: SIPMediaGW.sh
+  ansible.builtin.template:
+    src: SIPMediaGW.sh.j2
     dest: "{{ gateway_launcher_directory }}/SIPMediaGW.sh"
     owner: "{{ gateway_launcher_user }}"
     group: "{{ gateway_launcher_user }}"

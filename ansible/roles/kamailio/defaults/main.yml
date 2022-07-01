@@ -1,3 +1,9 @@
 ---
+# Kamailio general configuration
 sip_secret: "1234"
 gateway_name_pattern: mediagw
+
+# TLS configuration
+enable_tls: "{{ lookup('env','ENABLE_TLS') | bool | default('false') }}"
+fullchain_certificate: "{{ lookup('env', 'KAMAILIO_FULLCHAIN_CERTIFICATE') }}"
+privkey_certificate: "{{ lookup('env', 'KAMAILIO_PRIVKEY_CERTIFICATE') }}"

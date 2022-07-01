@@ -1,0 +1,33 @@
+---
+- name: Copy TLS configuration file
+  become: true
+  ansible.builtin.copy:
+    src: tls.cfg
+    dest: /etc/kamailio/tls.cfg
+    mode: "640"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+
+- name: Create /etc/kamailio/tls directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/kamailio/tls
+    state: directory
+    mode: "750"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+
+- name: Copy TLS certificates
+  become: true
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/kamailio/tls/{{ item }}"
+    mode: "640"
+    owner: kamailio
+    group: kamailio
+  notify: Restart Kamailio
+  loop:
+    - cert.pem
+    - key.pem
