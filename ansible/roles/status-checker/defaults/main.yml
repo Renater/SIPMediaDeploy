@@ -1,4 +1,4 @@
 ---
-webserver_user: user
-webserver_directory: /var/user
+webserver_user: checker
+webserver_directory: /var/checker
 service_name: service

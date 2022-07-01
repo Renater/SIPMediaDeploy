@@ -7,8 +7,6 @@
 - name: Set up the webserver for the status check
   hosts: all
   vars:
-    webserver_user: webserver
-    webserver_directory: /var/webserver
     service_name: coturn
   roles:
     - status-checker

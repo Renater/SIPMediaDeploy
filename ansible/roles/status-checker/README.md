@@ -5,11 +5,11 @@ This role allows us to provision a webserver that provides a status check for a 
 ## Variables
 
 The variables defines in `defaults/main.yml` are to be overwritten by real values :
-* `webserver_user`: The user used to set up the webserver .
-* `webserver_directory`: The working directory for the webserver.
-* `service_name`: The service on which the status check is to be performed .
+* `webserver_user`: the user used to set up the webserver.
+* `webserver_directory`: the working directory for the webserver.
+* `service_name`: the service on which the status check is to be performed.
 
-The variables defined in `vars/main.yml` are defining a few package versions .
+The variables defined in `vars/main.yml` are defining a few package versions.
 
 ## Example Playbook
 
