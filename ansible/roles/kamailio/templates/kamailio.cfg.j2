@@ -194,13 +194,14 @@ children=8
 # auto_aliases=no
 
 /* add local domain aliases - it can be set many times */
-alias="{{ ansible_host }}"
+alias="{{ external_ip }}"
 
 /* listen sockets - if none set, Kamailio binds to all local IP addresses
  * - basic prototype (full prototype can be found in Wiki - Core Cookbook):
  *      listen=[proto]:[localip]:[lport] advertise [publicip]:[pport]
  * - it can be set many times to add more sockets to listen to */
-# listen=udp:10.0.0.10:5060
+listen=udp:{{ ansible_host }}:5060 advertise {{ external_ip }}:5060
+listen=tcp:{{ ansible_host }}:5060 advertise {{ external_ip }}:5060
 
 /* life time of TCP connection when there is no traffic
  * - a bit higher than registration expires to cope with UA behind NAT */
