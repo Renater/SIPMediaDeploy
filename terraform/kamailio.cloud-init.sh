@@ -6,7 +6,7 @@ KAMAILIO_DOMAIN=${kamailio_domain}
 SIP_SECRET=${sip_secret}
 
 # If the Kamailio domain is empty, rewrite it with the IP address
-[ -z "$MAVAR" ] && KAMAILIO_DOMAIN=$KAMAILIO_EXTERNAL_IP
+[ -z "$KAMAILIO_DOMAIN" ] && KAMAILIO_DOMAIN=$KAMAILIO_EXTERNAL_IP
 
 sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"$KAMAILIO_EXTERNAL_IP\"/" /etc/kamailio/sipmediagw.cfg
 sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"$SIP_SECRET\"/" /etc/kamailio/sipmediagw.cfg
