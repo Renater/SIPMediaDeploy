@@ -17,6 +17,8 @@ To use this role in a playbook you can add
 
 ```yaml
 - hosts: all
+  vars:
+    service_name: ssh
   roles:
     - status-checker
 ```

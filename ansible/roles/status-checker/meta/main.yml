@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: status-checker
   author: Renater
-  description: An Ansible role to deploy and configure a webserver to perform a status check on a givern service .
+  description: An Ansible role to deploy and configure a webserver to perform a status check on a given service .
   company: Renater
 
   license: license (Apache-2.0)

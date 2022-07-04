@@ -32,6 +32,5 @@
   loop_control:
     loop_var: webserver_deployement_template
 
-
 - name: Start the webserver with pm2
   ansible.builtin.include_tasks: pm2.yml
