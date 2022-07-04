@@ -114,6 +114,7 @@
 #!define WITH_DEBUG
 #!define WITH_NAT
 #!define WITH_JSONRPC
+{% if enable_tls %}#!define WITH_TLS{% endif %}
 
 #!ifdef ACCDB_COMMENT
   ALTER TABLE acc ADD COLUMN src_user VARCHAR(64) NOT NULL DEFAULT '';

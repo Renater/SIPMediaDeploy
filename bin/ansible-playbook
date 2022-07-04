@@ -3,7 +3,10 @@ set -eo pipefail
 
 # Load ansible configuration
 source env.d/ansible
-export ANSIBLE_REMOTE_USER
+export ANSIBLE_REMOTE_USER \
+    ENABLE_TLS \
+    KAMAILIO_FULLCHAIN_CERTIFICATE \
+    KAMAILIO_PRIVKEY_CERTIFICATE
 
 # Launch ansible-playbook the Ansible directory
 cd ansible

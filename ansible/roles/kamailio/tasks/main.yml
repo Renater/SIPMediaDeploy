@@ -34,18 +34,15 @@
   ansible.builtin.pip:
     name: pexpect
 
-- name: Copy configuration files
+- name: Copy Gateway Python script
   become: true
   ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/etc/kamailio/{{ item }}"
+    src: request_gw.py
+    dest: /etc/kamailio/request_gw.py
     mode: "640"
     owner: kamailio
     group: kamailio
   notify: Restart Kamailio
-  loop:
-    - tls.cfg
-    - request_gw.py
 
 - name: Copy configuration templates
   become: true
@@ -60,6 +57,10 @@
     - kamailio.cfg
     - kamctlrc
     - sipmediagw.cfg
+
+- name: Configure TLS if enabled
+  ansible.builtin.include_tasks: tls.yml
+  when: enable_tls
 
 - name: Create /usr/local/etc/kamailio directory
   become: true
