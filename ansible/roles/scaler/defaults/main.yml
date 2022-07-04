@@ -38,3 +38,9 @@ scaler_provider_configuration:
   keypair: ovh_keypair
   use_cloud_init: false
   cloud_init_file: cloud-init.sh
+
+# Gateway Scaler general configuration
+scaler_user: scaler
+scaler_directory: /var/scaler
+scaler_image: "{{ scaler_image_name }}:{{ scaler_provider }}-{{ scaler_version }}"
+scaler_container: scaler

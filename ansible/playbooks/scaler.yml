@@ -33,45 +33,98 @@
           - docker-compose==1.29.2
         state: present
 
-- name: Deploy the SIP Media Gateway Scaler
+- name: Deploy the SIP Media Gateway Scalers
   hosts: all
   tasks:
-    - name: Create cloud-init.sh file
+    - name: Create the Scalers directories
+      become: true
+      ansible.builtin.file:
+        dest: /var/scaler/{{ item }}
+        state: directory
+        owner: scaler
+        group: scaler
+        mode: 0755
+      loop:
+        - gateway
+        - kamailio
+        - coturn
+
+    - name: Create cloud-init.sh files
       become: true
       ansible.builtin.copy:
-        dest: /var/scaler/cloud-init.sh
-        content: |
-          #!/bin/sh
-
-          echo "Cloud-init executed with success" > /cloud-init.log
+        dest: /var/scaler/{{ item.name }}/cloud-init.sh
+        content: "{{ item.content }}"
         owner: scaler
         group: scaler
         mode: 0644
+      loop:
+        - name: gateway
+          content: |
+            #!/bin/sh
 
-    - name: Install the scaler
+            echo "Cloud-init executed with success" > /cloud-init.log
+        - name: kamailio
+          content: |
+            #!/bin/sh
+
+            echo "Cloud-init executed with success" > /cloud-init.log
+        - name: coturn
+          content: |
+            #!/bin/sh
+
+            echo "Cloud-init executed with success" > /cloud-init.log
+
+    - name: Install the Scalers
       ansible.builtin.include_role:
         name: scaler
-  vars:
-    scaler_replica_api_path: /status
-    scaler_replica_api_capacity_key: readyToCall
-    scaler_replica_api_termination_key: callsEnded
-    scaler_provider_configuration:
-      auth_url: https://auth.cloud.ovh.net/v3
-      username: ovh_user
-      password: ovh_password
-      region_name: UK1
-      project_domain_id: default
-      user_domain_name: Default
-      project_id: ovh_project_id
-      project_name: ovh_project_name
-      interface: public
-      identity_api_version: 3
-      flavor: d2-8
-      image: Gateway Host
-      ip_version: 4
-      network: Ext-Net
-      metadata_key: sipmediagw.group
-      metadata_value: gateway
-      keypair: ovh_keypair
-      use_cloud_init: true
-      cloud_init_file: cloud-init.sh
+      vars:
+        scaler_directory: /var/scaler/{{ scaler_instance.name }}
+        scaler_container: scaler-{{ scaler_instance.name }}
+        scaler_http_port: "{{ scaler_instance.http_port }}"
+        scaler_replica_api_path: /status
+        scaler_replica_api_capacity_key: "{{ scaler_instance.replica_api_capacity_key }}"
+        scaler_replica_api_termination_key: "{{ scaler_instance.replica_api_termination_key }}"
+        scaler_provider_configuration:
+          auth_url: https://auth.cloud.ovh.net/v3
+          username: ovh_user
+          password: ovh_password
+          region_name: SBG7
+          project_domain_id: default
+          user_domain_name: Default
+          project_id: ovh_project_id
+          project_name: ovh_project_name
+          interface: public
+          identity_api_version: 3
+          flavor: "{{ scaler_instance.flavor }}"
+          image: "{{ scaler_instance.image }}"
+          ip_version: 4
+          network: "{{ scaler_instance.network }}"
+          metadata_key: sipmediagw.group
+          metadata_value: "{{ scaler_instance.name }}"
+          keypair: ovh_keypair
+          use_cloud_init: true
+          cloud_init_file: cloud-init.sh
+      loop:
+        - name: gateway
+          http_port: 8000
+          replica_api_capacity_key: readyToCall
+          replica_api_termination_key: callsEnded
+          flavor: d2-8
+          image: GatewayHost
+          network: Ext-Net
+        - name: kamailio
+          http_port: 8001
+          replica_api_capacity_key: serviceStatus
+          replica_api_termination_key: readyToDelete
+          flavor: s1-2
+          image: Kamailio
+          network: internal
+        - name: coturn
+          http_port: 8002
+          replica_api_capacity_key: serviceStatus
+          replica_api_termination_key: readyToDelete
+          flavor: s1-2
+          image: Coturn
+          network: internal
+      loop_control:
+        loop_var: scaler_instance
