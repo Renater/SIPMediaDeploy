@@ -1,0 +1,4 @@
+---
+# Package versions
+webpy_package_version: 0.62
+pm2_package_version: 5.2.0

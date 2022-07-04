@@ -1,0 +1,4 @@
+---
+webserver_user: checker
+webserver_directory: /var/checker
+service_name: service

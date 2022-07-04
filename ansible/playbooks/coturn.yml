@@ -3,3 +3,10 @@
   hosts: all
   roles:
     - coturn
+
+- name: Set up the webserver for the status check
+  hosts: all
+  vars:
+    service_name: coturn
+  roles:
+    - status-checker
