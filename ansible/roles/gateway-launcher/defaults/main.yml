@@ -3,7 +3,7 @@
 kamailio_host: 127.0.0.1
 kamailio_sip_secret: "1234"
 kamailio_sip_account_name_prefix: mediagw
-kamailio_enable_tls: "{{ lookup('env','ENABLE_TLS') | bool | default('false') }}"
+kamailio_enable_tls: "{{ lookup('env','ENABLE_TLS') | bool }}"
 
 # Coturn configuration
 turn_host: 127.0.0.1
