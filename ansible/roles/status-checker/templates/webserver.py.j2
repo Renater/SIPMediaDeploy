@@ -6,13 +6,13 @@ import os
 
 class Status:
     def GET(self, args=None):
-        serviceStatus=0
-        readyToDelete=True
-        status=os.system("systemctl is-active --quiet " + "{{ service_name }}")
-        if status==0 :
-            serviceStatus=1
-            readyToDelete=False
-        return json.dumps({"serviceStatus":serviceStatus,"readyToDelete":readyToDelete})
+        service_status = 0
+        ready_to_delete = True
+        status = os.system("systemctl is-active --quiet {{ service_name }}")
+        if status == 0:
+            service_status = 1
+            ready_to_delete = False
+        return json.dumps({ "serviceStatus": service_status, "readyToDelete": ready_to_delete })
 
 urls = ("/status", "Status")
 app = web.application(urls, globals())
