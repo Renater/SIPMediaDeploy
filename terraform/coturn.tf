@@ -14,6 +14,11 @@ variable "coturn_flavor" {
   description = "The name of the flavor of the Coturn instance."
 }
 
+variable "coturn_replicas" {
+  type        = number
+  description = "The minimum number of available coturn at any time."
+}
+
 variable "coturn_domain_name" {
   type        = string
   description = "The domain name for the Coturn instance"

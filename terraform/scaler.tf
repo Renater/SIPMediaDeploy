@@ -14,11 +14,6 @@ variable "scaler_flavor" {
   description = "The name of the flavor of the scaler instance."
 }
 
-variable "scaler_available_gateways_minimum" {
-  type        = number
-  description = "The minimum number of available gateways at any time."
-}
-
 variable "scaler_os_auth_url" {
   type        = string
   description = "The URL of the Openstack endpoint."
@@ -69,34 +64,14 @@ variable "scaler_os_identity_api_version" {
   description = "The version of the Openstack API."
 }
 
-variable "scaler_openstack_flavor" {
-  type        = string
-  description = "The name of the flavor to use for the virtual machines."
-}
-
-variable "scaler_openstack_image" {
-  type        = string
-  description = "The name of the image to use for the virtual machines."
-}
-
 variable "scaler_openstack_ip_version" {
   type        = string
   description = "The IP version to use for virtual machines."
 }
 
-variable "scaler_openstack_network" {
-  type        = string
-  description = "The name of the network to use for the virtual machines."
-}
-
 variable "scaler_openstack_metadata_key" {
   type        = string
   description = "The metadata key to identify the scaled server pool."
-}
-
-variable "scaler_openstack_metadata_value" {
-  type        = string
-  description = "The metadata value to identify the scaled server pool."
 }
 
 variable "scaler_openstack_keypair" {
@@ -130,32 +105,40 @@ resource "openstack_compute_instance_v2" "scaler" {
   flavor_name = var.scaler_flavor
   key_pair    = var.key_pair
   user_data = templatefile("${path.module}/scaler.cloud-init.sh", {
-    replica_capacity                = var.gateway_host_capacity
-    replica_min_available_resources = var.scaler_available_gateways_minimum
-    os_auth_url                     = var.scaler_os_auth_url
-    os_username                     = var.scaler_os_username
-    os_password                     = var.scaler_os_password
-    os_region_name                  = var.scaler_os_region_name
-    os_project_domain_id            = var.scaler_os_project_domain_id
-    os_user_domain_name             = var.scaler_os_user_domain_name
-    os_project_id                   = var.scaler_os_project_id
-    os_project_name                 = var.scaler_os_project_name
-    os_interface                    = var.scaler_os_interface
-    os_identity_api_version         = var.scaler_os_identity_api_version
-    openstack_flavor                = var.scaler_openstack_flavor
-    openstack_image                 = var.scaler_openstack_image
-    openstack_ip_version            = var.scaler_openstack_ip_version
-    openstack_network               = var.scaler_openstack_network
-    openstack_metadata_key          = var.scaler_openstack_metadata_key
-    openstack_metadata_value        = var.scaler_openstack_metadata_value
-    openstack_keypair               = var.scaler_openstack_keypair
-    coturn_ip                       = openstack_networking_floatingip_v2.coturn.address
-    coturn_port                     = var.coturn_port
-    stun_user                       = var.coturn_stun_user
-    stun_pass                       = var.coturn_stun_pass
-    kamailio_ip                     = openstack_networking_floatingip_v2.kamailio.address
-    sip_secret                      = var.kamailio_sip_secret
-    webrtc_domain                   = var.gateway_webrtc_domain
+    os_auth_url                   = var.scaler_os_auth_url
+    os_username                   = var.scaler_os_username
+    os_password                   = var.scaler_os_password
+    os_region_name                = var.scaler_os_region_name
+    os_project_domain_id          = var.scaler_os_project_domain_id
+    os_user_domain_name           = var.scaler_os_user_domain_name
+    os_project_id                 = var.scaler_os_project_id
+    os_project_name               = var.scaler_os_project_name
+    os_interface                  = var.scaler_os_interface
+    os_identity_api_version       = var.scaler_os_identity_api_version
+    openstack_ip_version          = var.scaler_openstack_ip_version
+    openstack_external_network    = var.external_network
+    openstack_internal_network    = openstack_networking_network_v2.internal.name
+    openstack_metadata_key        = var.scaler_openstack_metadata_key
+    openstack_keypair             = var.scaler_openstack_keypair
+    gateway_host_openstack_image  = var.gateway_host_image
+    gateway_host_openstack_flavor = var.gateway_host_flavor
+    gateway_host_replicas         = var.gateway_host_replicas
+    kamailio_openstack_image      = var.kamailio_image
+    kamailio_openstack_flavor     = var.kamailio_flavor
+    kamailio_replicas             = var.kamailio_replicas
+    coturn_openstack_image        = var.coturn_image
+    coturn_openstack_flavor       = var.coturn_flavor
+    coturn_replicas               = var.coturn_replicas
+    gateway_host_capacity         = var.gateway_host_capacity
+    coturn_ip                     = openstack_networking_floatingip_v2.coturn.address
+    coturn_port                   = var.coturn_port
+    coturn_domain                 = var.coturn_domain_name
+    stun_user                     = var.coturn_stun_user
+    stun_pass                     = var.coturn_stun_pass
+    kamailio_ip                   = openstack_networking_floatingip_v2.kamailio.address
+    kamailio_domain_name          = var.kamailio_domain_name
+    sip_secret                    = var.kamailio_sip_secret
+    webrtc_domain                 = var.gateway_webrtc_domain
   })
 
   network {

@@ -60,19 +60,66 @@
       loop:
         - name: gateway
           content: |
-            #!/bin/sh
+            !/bin/sh
 
-            echo "Cloud-init executed with success" > /cloud-init.log
+            GATEWAY_HOST_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}" 2>&1 | head -n 1)
+            KAMAILIO_IP=127.0.0.1
+            SIP_SECRET=1234
+            COTURN_IP=127.0.0.1
+            COTURN_PORT=3478
+            STUN_USER=username
+            STUN_PASS=password
+            WEBRTC_DOMAIN=meet.jit.si
+
+            sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"$KAMAILIO_IP\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"$SIP_SECRET\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/turnConfig=\"turn:([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5};stunuser=[^;]*;stunpass=[^\"]*\"/turnConfig=\"turn:'$COTURN_IP':'$COTURN_PORT';stunuser='$STUN_USER';stunpass='$STUN_PASS'\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/sipUaNamePart=\"[^\"]*\"/sipUaNamePart=\"mediagw.$GATEWAY_HOST_IP\"/" /var/launcher/sipmediagw.cfg
+
+            sed -i -E "s/WEBRTC_DOMAIN: \"[^\"]*\"/WEBRTC_DOMAIN: \"$WEBRTC_DOMAIN\"/" /var/launcher/docker-compose.yml
+
+            curl "http://localhost:8080/sipmediagw"
         - name: kamailio
           content: |
             #!/bin/sh
 
-            echo "Cloud-init executed with success" > /cloud-init.log
+            KAMAILIO_INTERNAL_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}")
+            KAMAILIO_EXTERNAL_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}")
+            KAMAILIO_DOMAIN=
+            SIP_SECRET=1234
+
+            # If the Kamailio domain is empty, rewrite it with the IP address
+            [ -z "$KAMAILIO_DOMAIN" ] && KAMAILIO_DOMAIN=$KAMAILIO_EXTERNAL_IP
+
+            sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"$KAMAILIO_EXTERNAL_IP\"/" /etc/kamailio/sipmediagw.cfg
+            sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"$SIP_SECRET\"/" /etc/kamailio/sipmediagw.cfg
+
+            sed -i -E "s/alias=\"[^\"]*\"/alias=\"$KAMAILIO_DOMAIN\"/" /etc/kamailio/kamailio.cfg
+            sed -i -E "s/^listen=udp:.*$/listen=udp:$KAMAILIO_INTERNAL_IP:5060 advertise $KAMAILIO_EXTERNAL_IP:5060/" /etc/kamailio/kamailio.cfg
+            sed -i -E "s/^listen=tcp:.*$/listen=tcp:$KAMAILIO_INTERNAL_IP:5060 advertise $KAMAILIO_EXTERNAL_IP:5060/" /etc/kamailio/kamailio.cfg
+
+            sed -i -E "s/SIP_DOMAIN=[^\"]*/SIP_DOMAIN=$KAMAILIO_EXTERNAL_IP/" /etc/kamailio/kamctlrc
+            sed -i -E "s/DBACCESSHOST=[^\"]*/DBACCESSHOST=$KAMAILIO_INTERNAL_IP/" /etc/kamailio/kamctlrc
+
+            systemctl restart kamailio.service
         - name: coturn
           content: |
             #!/bin/sh
 
-            echo "Cloud-init executed with success" > /cloud-init.log
+            COTURN_IP=127.0.0.1
+            COTURN_DOMAIN=coturn.local
+            COTURN_PORT=3478
+            STUN_USER=username
+            STUN_PASS=password
+
+            sed -i -E "s/listening-port=[0-9]{1,5}/listening-port=$COTURN_PORT/" /etc/turnserver.conf
+            sed -i -E "s/external-ip=([0-9]{1,3}\.){3}[0-9]{1,3}/external-ip=$COTURN_IP/" /etc/turnserver.conf
+            sed -i -E "s/realm=.*$/realm=$COTURN_DOMAIN/" /etc/turnserver.conf
+            sed -i -E "s/user=[^:]*:[^\"]*$/user=$STUN_USER:$STUN_PASS/" /etc/turnserver.conf
+
+            systemctl restart coturn.service
+      loop_control:
+        label: "{{ item.name }}"
 
     - name: Install the Scalers
       ansible.builtin.include_role:

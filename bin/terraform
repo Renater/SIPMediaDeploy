@@ -14,15 +14,19 @@ export OS_AUTH_URL \
     OS_INTERFACE \
     OS_IDENTITY_API_VERSION \
     TF_VAR_key_pair \
-    TF_VAR_gateway_webrtc_domain \
-    TF_VAR_gateway_host_capacity \
     TF_VAR_external_network \
     TF_VAR_internal_network_cidr \
     TF_VAR_internal_network_gateway \
     TF_VAR_internal_network_ip_version \
+    TF_VAR_gateway_host_image \
+    TF_VAR_gateway_host_flavor \
+    TF_VAR_gateway_host_replicas \
+    TF_VAR_gateway_webrtc_domain \
+    TF_VAR_gateway_host_capacity \
     TF_VAR_coturn_name \
     TF_VAR_coturn_image \
     TF_VAR_coturn_flavor \
+    TF_VAR_coturn_replicas \
     TF_VAR_coturn_domain_name \
     TF_VAR_coturn_port \
     TF_VAR_coturn_stun_user \
@@ -30,12 +34,12 @@ export OS_AUTH_URL \
     TF_VAR_kamailio_name \
     TF_VAR_kamailio_image \
     TF_VAR_kamailio_flavor \
+    TF_VAR_kamailio_replicas \
     TF_VAR_kamailio_sip_secret \
     TF_VAR_kamailio_domain_name \
     TF_VAR_scaler_name \
     TF_VAR_scaler_image \
     TF_VAR_scaler_flavor \
-    TF_VAR_scaler_available_gateways_minimum \
     TF_VAR_scaler_os_auth_url \
     TF_VAR_scaler_os_username \
     TF_VAR_scaler_os_password \
@@ -46,12 +50,8 @@ export OS_AUTH_URL \
     TF_VAR_scaler_os_project_name \
     TF_VAR_scaler_os_interface \
     TF_VAR_scaler_os_identity_api_version \
-    TF_VAR_scaler_openstack_flavor \
-    TF_VAR_scaler_openstack_image \
     TF_VAR_scaler_openstack_ip_version \
-    TF_VAR_scaler_openstack_network \
     TF_VAR_scaler_openstack_metadata_key \
-    TF_VAR_scaler_openstack_metadata_value \
     TF_VAR_scaler_openstack_keypair
 
 # Launch terraform

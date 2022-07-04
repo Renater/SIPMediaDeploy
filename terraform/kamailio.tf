@@ -14,6 +14,11 @@ variable "kamailio_flavor" {
   description = "The name of the flavor of the Kamailio instance."
 }
 
+variable "kamailio_replicas" {
+  type        = number
+  description = "The minimum number of available Kamailio at any time."
+}
+
 variable "kamailio_sip_secret" {
   type        = string
   description = "The secret shared by the instances using the SIP protocol."
