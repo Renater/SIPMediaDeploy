@@ -21,13 +21,17 @@
 
 - name: Copy TLS certificates
   become: true
-  ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "/etc/kamailio/tls/{{ item }}"
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "/etc/kamailio/tls/{{ item.file }}"
     mode: "640"
     owner: kamailio
     group: kamailio
   notify: Restart Kamailio
   loop:
-    - cert.pem
-    - key.pem
+    - content: "{{ fullchain_certificate }}"
+      file: cert.pem
+    - content: "{{ privkey_certificate }}"
+      file: key.pem
+  loop_control:
+    label: "{{ item.file }}"
