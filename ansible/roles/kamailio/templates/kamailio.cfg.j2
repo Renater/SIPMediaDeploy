@@ -114,7 +114,7 @@
 #!define WITH_DEBUG
 #!define WITH_NAT
 #!define WITH_JSONRPC
-{% if enable_tls %}#!define WITH_TLS{% endif %}
+{% if enable_tls %}#!define WITH_TLS{% endif +%}
 
 #!ifdef ACCDB_COMMENT
   ALTER TABLE acc ADD COLUMN src_user VARCHAR(64) NOT NULL DEFAULT '';
@@ -200,8 +200,8 @@ alias="{{ external_ip }}"
  * - basic prototype (full prototype can be found in Wiki - Core Cookbook):
  *      listen=[proto]:[localip]:[lport] advertise [publicip]:[pport]
  * - it can be set many times to add more sockets to listen to */
-listen=udp:{{ ansible_host }}:5060 advertise {{ external_ip }}:5060
 listen=tcp:{{ ansible_host }}:5060 advertise {{ external_ip }}:5060
+{% if enable_tls %}listen=tls:{{ ansible_host }}:5061 advertise {{ external_ip }}:5061{% endif +%}
 
 /* life time of TCP connection when there is no traffic
  * - a bit higher than registration expires to cope with UA behind NAT */
