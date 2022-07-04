@@ -1,6 +1,6 @@
 #!/bin/sh
 
-COTURN_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}")
+COTURN_IP=${coturn_ip}
 COTURN_DOMAIN=${coturn_domain}
 COTURN_PORT=${coturn_port}
 STUN_USER=${stun_user}

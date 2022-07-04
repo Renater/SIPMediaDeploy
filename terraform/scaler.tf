@@ -14,11 +14,6 @@ variable "scaler_flavor" {
   description = "The name of the flavor of the scaler instance."
 }
 
-variable "scaler_network" {
-  type        = string
-  description = "The name of the network of the scaler instance."
-}
-
 variable "scaler_available_gateways_minimum" {
   type        = number
   description = "The minimum number of available gateways at any time."
@@ -109,6 +104,26 @@ variable "scaler_openstack_keypair" {
   description = "The name of the keypair that is provisioned on the virtual machines."
 }
 
+resource "openstack_networking_port_v2" "scaler" {
+  name           = "scaler"
+  network_id     = openstack_networking_network_v2.internal.id
+  admin_state_up = "true"
+
+  fixed_ip {
+    subnet_id = openstack_networking_subnet_v2.internal_v4.id
+  }
+}
+
+resource "openstack_networking_floatingip_v2" "scaler" {
+  pool        = var.external_network
+  description = "scaler"
+}
+
+resource "openstack_networking_floatingip_associate_v2" "scaler" {
+  floating_ip = openstack_networking_floatingip_v2.scaler.address
+  port_id     = openstack_networking_port_v2.scaler.id
+}
+
 resource "openstack_compute_instance_v2" "scaler" {
   name        = var.scaler_name
   image_name  = var.scaler_image
@@ -134,17 +149,17 @@ resource "openstack_compute_instance_v2" "scaler" {
     openstack_metadata_key          = var.scaler_openstack_metadata_key
     openstack_metadata_value        = var.scaler_openstack_metadata_value
     openstack_keypair               = var.scaler_openstack_keypair
-    coturn_ip                       = openstack_compute_instance_v2.coturn.access_ip_v4
+    coturn_ip                       = openstack_networking_floatingip_v2.coturn.address
     coturn_port                     = var.coturn_port
     stun_user                       = var.coturn_stun_user
     stun_pass                       = var.coturn_stun_pass
-    kamailio_ip                     = openstack_compute_instance_v2.kamailio.access_ip_v4
+    kamailio_ip                     = openstack_networking_floatingip_v2.kamailio.address
     sip_secret                      = var.kamailio_sip_secret
     webrtc_domain                   = var.gateway_webrtc_domain
   })
 
   network {
-    name = var.scaler_network
+    port = openstack_networking_port_v2.scaler.id
   }
 
   metadata = {

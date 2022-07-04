@@ -22,11 +22,16 @@ TF_VAR_key_pair=
 TF_VAR_gateway_webrtc_domain="meet.jit.si"
 TF_VAR_gateway_host_capacity=1
 
+# Networking configuration
+TF_VAR_external_network=Ext-Net
+TF_VAR_internal_network_cidr=192.168.0.0/24
+TF_VAR_internal_network_gateway=192.168.0.1
+TF_VAR_internal_network_ip_version=4
+
 # Coturn configuration variables
 TF_VAR_coturn_name=coturn
 TF_VAR_coturn_image="Coturn"
 TF_VAR_coturn_flavor=s1-2
-TF_VAR_coturn_network=Ext-Net
 
 TF_VAR_coturn_domain_name="coturn.local"
 TF_VAR_coturn_port=3478
@@ -37,7 +42,6 @@ TF_VAR_coturn_stun_pass=
 TF_VAR_kamailio_name=kamailio
 TF_VAR_kamailio_image="Kamailio"
 TF_VAR_kamailio_flavor=s1-2
-TF_VAR_kamailio_network=Ext-Net
 
 TF_VAR_kamailio_sip_secret=
 TF_VAR_kamailio_domain_name=
@@ -46,7 +50,6 @@ TF_VAR_kamailio_domain_name=
 TF_VAR_scaler_name=scaler
 TF_VAR_scaler_image="Scaler"
 TF_VAR_scaler_flavor=s1-2
-TF_VAR_scaler_network=Ext-Net
 
 TF_VAR_scaler_available_gateways_minimum=3
 TF_VAR_scaler_os_auth_url=${OS_AUTH_URL}
@@ -62,7 +65,7 @@ TF_VAR_scaler_os_identity_api_version=${OS_IDENTITY_API_VERSION}
 TF_VAR_scaler_openstack_flavor=d2-8
 TF_VAR_scaler_openstack_image=GatewayHost
 TF_VAR_scaler_openstack_ip_version=4
-TF_VAR_scaler_openstack_network=Ext-Net
+TF_VAR_scaler_openstack_network=${TF_VAR_external_network}
 TF_VAR_scaler_openstack_metadata_key=sipmediagw.group
 TF_VAR_scaler_openstack_metadata_value=gateway
 TF_VAR_scaler_openstack_keypair=${TF_VAR_key_pair}
