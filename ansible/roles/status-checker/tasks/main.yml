@@ -21,8 +21,8 @@
 - name: Copy the webserver deployment templates
   become: true
   ansible.builtin.template:
-    src: "{{ webserver_deployement_template }}.j2"
-    dest: "{{ webserver_directory }}/{{ webserver_deployement_template }}"
+    src: "{{ status_checker_template }}.j2"
+    dest: "{{ webserver_directory }}/{{ status_checker_template }}"
     owner: "{{ webserver_user }}"
     group: "{{ webserver_user }}"
     mode: 0600
@@ -30,7 +30,7 @@
     - webserver.py
     - pm2-ecosystem.yml
   loop_control:
-    loop_var: webserver_deployement_template
+    loop_var: status_checker_template
 
 - name: Start the webserver with pm2
   ansible.builtin.include_tasks: pm2.yml

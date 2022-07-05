@@ -15,8 +15,8 @@
 - name: Copy the Launcher deployment files
   become: true
   ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ gateway_launcher_directory }}/{{ item }}"
+    src: "{{ gateway_launcher_file }}"
+    dest: "{{ gateway_launcher_directory }}/{{ gateway_launcher_file }}"
     owner: "{{ gateway_launcher_user }}"
     group: "{{ gateway_launcher_user }}"
     mode: 0644
@@ -24,6 +24,8 @@
     - HTTPLauncher.py
     - docker-compose.yml
     - pm2-ecosystem.yml
+  loop_control:
+    loop_var: gateway_launcher_file
 
 - name: Copy the Launcher script
   become: true

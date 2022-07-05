@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: Coturn
+  role_name: coturn
   author: Renater
   description: An Ansible role to deploy and configure a Coturn server
   company: Renater

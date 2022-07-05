@@ -22,8 +22,8 @@
 - name: Copy TLS certificates
   become: true
   ansible.builtin.copy:
-    content: "{{ item.content }}"
-    dest: "/etc/kamailio/tls/{{ item.file }}"
+    content: "{{ kamailio_file.content }}"
+    dest: "/etc/kamailio/tls/{{ kamailio_file.file }}"
     mode: "640"
     owner: kamailio
     group: kamailio
@@ -35,3 +35,4 @@
       file: key.pem
   loop_control:
     label: "{{ item.file }}"
+    loop_var: kamailio_file

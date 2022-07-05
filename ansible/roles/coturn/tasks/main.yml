@@ -18,4 +18,7 @@
   ansible.builtin.template:
     src: turnserver.conf.j2
     dest: /etc/turnserver.conf
+    owner: turnserver
+    group: turnserver
+    mode: 0644
   notify: Restart Coturn
