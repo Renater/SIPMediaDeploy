@@ -34,5 +34,5 @@
     - content: "{{ privkey_certificate }}"
       file: key.pem
   loop_control:
-    label: "{{ item.file }}"
+    label: "{{ kamailio_file.file }}"
     loop_var: kamailio_file
