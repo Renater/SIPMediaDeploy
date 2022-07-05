@@ -24,6 +24,7 @@ The following variables are defined in `defaults/main.yml` and may be overwritte
 * `scaler_replica_api_path`: path of the virtual machines to get the scaling metrics.
 * `scaler_replica_api_capacity_key`: key containing the current capacity metric value, in the virtual machines response.
 * `scaler_replica_api_termination_key`: key containing the boolean indicating whether the host can be terminated, in the virtual machines response.
+* `scaler_external_address_management`: boolean that indicates if the scaler should manage external addresses.
 * `scaler_provider`: provider for the scaler (only available value is `openstack`).
 * `scaler_provider_configuration`: configuration of the provider; each provider has its own configuration which is defined in the subsections below.
 
@@ -48,6 +49,7 @@ The following keys of the `scaler_provider_configuration` may be overwritten to 
 * `network`: name of the network to use for the virtual machines.
 * `metadata_key`: metadata key to identify the scaled server pool.
 * `metadata_value`: metadata value to identify the scaled server pool.
+* `floating_ip_description`: description of the floating IPs that should be assigned (only used when `scaler_external_address_management` is enabled).
 * `keypair`: name of the keypair that is provisioned on the virtual machines.
 * `use_cloud_init`: boolean defining whether a cloud-init file shall be used as user-data on the virtual machines.
 * `cloud_init_file`: path to the cloud-init file that is used as user-data on the virtual machines.
