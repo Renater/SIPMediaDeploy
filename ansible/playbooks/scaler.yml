@@ -59,6 +59,7 @@
         mode: 0644
       loop:
         - name: gateway
+          # yamllint disable rule:line-length
           content: |
             !/bin/sh
 
@@ -79,6 +80,7 @@
             sed -i -E "s/WEBRTC_DOMAIN: \"[^\"]*\"/WEBRTC_DOMAIN: \"$WEBRTC_DOMAIN\"/" /var/launcher/docker-compose.yml
 
             curl "http://localhost:8080/sipmediagw"
+          # yamllint enable rule:line-length
         - name: kamailio
           content: |
             #!/bin/sh
