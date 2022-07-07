@@ -33,45 +33,155 @@
           - docker-compose==1.29.2
         state: present
 
-- name: Deploy the SIP Media Gateway Scaler
+- name: Deploy the SIP Media Gateway Scalers
   hosts: all
   tasks:
-    - name: Create cloud-init.sh file
+    - name: Create the Scalers directories
+      become: true
+      ansible.builtin.file:
+        dest: /var/scaler/{{ item }}
+        state: directory
+        owner: scaler
+        group: scaler
+        mode: 0755
+      loop:
+        - gateway
+        - kamailio
+        - coturn
+
+    - name: Create cloud-init.sh files
       become: true
       ansible.builtin.copy:
-        dest: /var/scaler/cloud-init.sh
-        content: |
-          #!/bin/sh
-
-          echo "Cloud-init executed with success" > /cloud-init.log
+        dest: /var/scaler/{{ item.name }}/cloud-init.sh
+        content: "{{ item.content }}"
         owner: scaler
         group: scaler
         mode: 0644
+      loop:
+        - name: gateway
+          # yamllint disable rule:line-length
+          content: |
+            #!/bin/sh
 
-    - name: Install the scaler
+            GATEWAY_HOST_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}" 2>&1 | head -n 1)
+            KAMAILIO_IP=127.0.0.1
+            SIP_SECRET=1234
+            COTURN_IP=127.0.0.1
+            COTURN_PORT=3478
+            STUN_USER=username
+            STUN_PASS=password
+            WEBRTC_DOMAIN=meet.jit.si
+
+            sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"$KAMAILIO_IP\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"$SIP_SECRET\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/turnConfig=\"turn:([0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]{1,5};stunuser=[^;]*;stunpass=[^\"]*\"/turnConfig=\"turn:$COTURN_IP:$COTURN_PORT;stunuser=$STUN_USER;stunpass=$STUN_PASS\"/" /var/launcher/sipmediagw.cfg
+            sed -i -E "s/sipUaNamePart=\"[^\"]*\"/sipUaNamePart=\"mediagw.$GATEWAY_HOST_IP\"/" /var/launcher/sipmediagw.cfg
+
+            sed -i -E "s/WEBRTC_DOMAIN: \"[^\"]*\"/WEBRTC_DOMAIN: \"$WEBRTC_DOMAIN\"/" /var/launcher/docker-compose.yml
+
+            curl "http://localhost:8080/sipmediagw"
+          # yamllint enable rule:line-length
+        - name: kamailio
+          content: |
+            #!/bin/sh
+
+            KAMAILIO_INTERNAL_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}")
+            KAMAILIO_EXTERNAL_IP=$(hostname -I | grep -o -E "([0-9]{1,3}\.){3}[0-9]{1,3}")
+            KAMAILIO_DOMAIN=
+            SIP_SECRET=1234
+
+            sed -i -E "s/sipSrv=\"([0-9]{1,3}\.){3}[0-9]{1,3}\"/sipSrv=\"$KAMAILIO_EXTERNAL_IP\"/" /etc/kamailio/sipmediagw.cfg
+            sed -i -E "s/sipSecret=\"[^\"]*\"/sipSecret=\"$SIP_SECRET\"/" /etc/kamailio/sipmediagw.cfg
+
+            if [ -z "$KAMAILIO_DOMAIN" ]
+            then
+                sed -i -E "s/alias=\"[^\"]*\"/alias=\"$KAMAILIO_EXTERNAL_IP\"/" /etc/kamailio/kamailio.cfg
+            else
+                sed -i -E "s/alias=\"[^\"]*\"/alias=\"$KAMAILIO_EXTERNAL_IP\"\nalias=\"$KAMAILIO_DOMAIN\"/" /etc/kamailio/kamailio.cfg
+            fi
+
+            sed -i -E "s/^listen=tcp:.*$/listen=tcp:$KAMAILIO_INTERNAL_IP:5060 advertise $KAMAILIO_EXTERNAL_IP:5060/" /etc/kamailio/kamailio.cfg
+            sed -i -E "s/^listen=tls:.*$/listen=tls:$KAMAILIO_INTERNAL_IP:5061 advertise $KAMAILIO_EXTERNAL_IP:5061/" /etc/kamailio/kamailio.cfg
+
+            sed -i -E "s/SIP_DOMAIN=[^\"]*/SIP_DOMAIN=$KAMAILIO_EXTERNAL_IP/" /etc/kamailio/kamctlrc
+            sed -i -E "s/DBACCESSHOST=[^\"]*/DBACCESSHOST=$KAMAILIO_INTERNAL_IP/" /etc/kamailio/kamctlrc
+
+            systemctl restart kamailio.service
+        - name: coturn
+          content: |
+            #!/bin/sh
+
+            COTURN_IP=127.0.0.1
+            COTURN_DOMAIN=coturn.local
+            COTURN_PORT=3478
+            STUN_USER=username
+            STUN_PASS=password
+
+            sed -i -E "s/listening-port=[0-9]{1,5}/listening-port=$COTURN_PORT/" /etc/turnserver.conf
+            sed -i -E "s/external-ip=([0-9]{1,3}\.){3}[0-9]{1,3}/external-ip=$COTURN_IP/" /etc/turnserver.conf
+            sed -i -E "s/realm=.*$/realm=$COTURN_DOMAIN/" /etc/turnserver.conf
+            sed -i -E "s/user=[^:]*:[^\"]*$/user=$STUN_USER:$STUN_PASS/" /etc/turnserver.conf
+
+            systemctl restart coturn.service
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Install the Scalers
       ansible.builtin.include_role:
         name: scaler
-  vars:
-    scaler_replica_api_path: /status
-    scaler_replica_api_capacity_key: readyToCall
-    scaler_replica_api_termination_key: callsEnded
-    scaler_provider_configuration:
-      auth_url: https://auth.cloud.ovh.net/v3
-      username: ovh_user
-      password: ovh_password
-      region_name: UK1
-      project_domain_id: default
-      user_domain_name: Default
-      project_id: ovh_project_id
-      project_name: ovh_project_name
-      interface: public
-      identity_api_version: 3
-      flavor: d2-8
-      image: Gateway Host
-      ip_version: 4
-      network: Ext-Net
-      metadata_key: sipmediagw.group
-      metadata_value: gateway
-      keypair: ovh_keypair
-      use_cloud_init: true
-      cloud_init_file: cloud-init.sh
+      vars:
+        scaler_directory: /var/scaler/{{ scaler_instance.name }}
+        scaler_container: scaler-{{ scaler_instance.name }}
+        scaler_http_port: "{{ scaler_instance.http_port }}"
+        scaler_replica_api_path: /status
+        scaler_replica_api_capacity_key: "{{ scaler_instance.replica_api_capacity_key }}"
+        scaler_replica_api_termination_key: "{{ scaler_instance.replica_api_termination_key }}"
+        scaler_external_address_management: "{{ scaler_instance.external_address_management }}"
+        scaler_provider_configuration:
+          auth_url: https://auth.cloud.ovh.net/v3
+          username: ovh_user
+          password: ovh_password
+          region_name: SBG7
+          project_domain_id: default
+          user_domain_name: Default
+          project_id: ovh_project_id
+          project_name: ovh_project_name
+          interface: public
+          identity_api_version: 3
+          flavor: "{{ scaler_instance.flavor }}"
+          image: "{{ scaler_instance.image }}"
+          ip_version: 4
+          network: "{{ scaler_instance.network }}"
+          metadata_key: sipmediagw.group
+          metadata_value: "{{ scaler_instance.name }}"
+          floating_ip_description: "{{ scaler_instance.name }}"
+          keypair: ovh_keypair
+          use_cloud_init: true
+          cloud_init_file: cloud-init.sh
+      loop:
+        - name: gateway
+          http_port: 8000
+          replica_api_capacity_key: readyToCall
+          replica_api_termination_key: callsEnded
+          external_address_management: false
+          flavor: d2-8
+          image: GatewayHost
+          network: Ext-Net
+        - name: kamailio
+          http_port: 8001
+          replica_api_capacity_key: serviceStatus
+          replica_api_termination_key: readyToDelete
+          external_address_management: true
+          flavor: s1-2
+          image: Kamailio
+          network: internal
+        - name: coturn
+          http_port: 8002
+          replica_api_capacity_key: serviceStatus
+          replica_api_termination_key: readyToDelete
+          external_address_management: true
+          flavor: s1-2
+          image: Coturn
+          network: internal
+      loop_control:
+        loop_var: scaler_instance

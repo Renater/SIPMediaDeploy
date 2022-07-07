@@ -1,7 +1,7 @@
 ---
 # Scaler Docker image configuration
 scaler_image_name: renater/simplescalevm
-scaler_version: 1.1.1
+scaler_version: 2.0.0
 
 # Scaler HTTP configuration
 scaler_http_host: 0.0.0.0
@@ -15,6 +15,7 @@ scaler_replica_api_port: 8080
 scaler_replica_api_path: /
 scaler_replica_api_capacity_key: capacity
 scaler_replica_api_termination_key: termination
+scaler_external_address_management: false
 
 # Provider configuration
 scaler_provider: openstack
@@ -35,6 +36,13 @@ scaler_provider_configuration:
   network: Ext-Net
   metadata_key: group
   metadata_value: scaled
+  floating_ip_description: server
   keypair: ovh_keypair
   use_cloud_init: false
   cloud_init_file: cloud-init.sh
+
+# Gateway Scaler general configuration
+scaler_user: scaler
+scaler_directory: /var/scaler
+scaler_image: "{{ scaler_image_name }}:{{ scaler_provider }}-{{ scaler_version }}"
+scaler_container: scaler

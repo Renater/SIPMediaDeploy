@@ -3,8 +3,8 @@ version: "3"
 services:
   scaler:
     image: {{ scaler_image_name }}:{{ scaler_provider }}-{{ scaler_version }}
-    container_name: scaler
-    hostname: scaler
+    container_name: {{ scaler_container }}
+    hostname: {{ scaler_container }}
     restart: always
     ports:
       - "{{ scaler_http_port }}:{{ scaler_http_port }}"
