@@ -1,3 +1,9 @@
+variable "gateway_host_name" {
+  type        = string
+  description = "The name of the Gateway Host instance."
+  default     = "gateway"
+}
+
 variable "gateway_host_image" {
   type        = string
   description = "The name of the image of the Gateway Host instance."

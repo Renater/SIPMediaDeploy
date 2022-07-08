@@ -137,6 +137,7 @@
         scaler_replica_api_capacity_key: "{{ scaler_instance.replica_api_capacity_key }}"
         scaler_replica_api_termination_key: "{{ scaler_instance.replica_api_termination_key }}"
         scaler_external_address_management: "{{ scaler_instance.external_address_management }}"
+        scaler_autoscaling: true
         scaler_provider_configuration:
           auth_url: https://auth.cloud.ovh.net/v3
           username: ovh_user
@@ -148,6 +149,7 @@
           project_name: ovh_project_name
           interface: public
           identity_api_version: 3
+          server_name: "{{ scaler_instance.name }}"
           flavor: "{{ scaler_instance.flavor }}"
           image: "{{ scaler_instance.image }}"
           ip_version: 4
@@ -158,6 +160,15 @@
           keypair: ovh_keypair
           use_cloud_init: true
           cloud_init_file: cloud-init.sh
+        scaler_provider_autoscaling_configuration:
+          server_name: scaler
+          flavor: s1-2
+          image: Scaler
+          network: internal
+          metadata_value: scaler
+          use_cloud_init: true
+          cloud_init_file: scaler.cloud-init.sh
+          nodes: 2
       loop:
         - name: gateway
           http_port: 8000

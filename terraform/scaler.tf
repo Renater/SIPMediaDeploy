@@ -79,25 +79,25 @@ variable "scaler_openstack_keypair" {
   description = "The name of the keypair that is provisioned on the virtual machines."
 }
 
-resource "openstack_networking_port_v2" "scaler" {
-  name           = "scaler"
-  network_id     = openstack_networking_network_v2.internal.id
-  admin_state_up = "true"
+# resource "openstack_networking_port_v2" "scaler" {
+#   name           = "scaler"
+#   network_id     = openstack_networking_network_v2.internal.id
+#   admin_state_up = "true"
 
-  fixed_ip {
-    subnet_id = openstack_networking_subnet_v2.internal_v4.id
-  }
-}
+#   fixed_ip {
+#     subnet_id = openstack_networking_subnet_v2.internal_v4.id
+#   }
+# }
 
-resource "openstack_networking_floatingip_v2" "scaler" {
-  pool        = var.external_network
-  description = "scaler"
-}
+# resource "openstack_networking_floatingip_v2" "scaler" {
+#   pool        = var.external_network
+#   description = "scaler"
+# }
 
-resource "openstack_networking_floatingip_associate_v2" "scaler" {
-  floating_ip = openstack_networking_floatingip_v2.scaler.address
-  port_id     = openstack_networking_port_v2.scaler.id
-}
+# resource "openstack_networking_floatingip_associate_v2" "scaler" {
+#   floating_ip = openstack_networking_floatingip_v2.scaler.address
+#   port_id     = openstack_networking_port_v2.scaler.id
+# }
 
 resource "openstack_compute_instance_v2" "scaler" {
   name        = var.scaler_name
@@ -120,12 +120,15 @@ resource "openstack_compute_instance_v2" "scaler" {
     openstack_internal_network    = openstack_networking_network_v2.internal.name
     openstack_metadata_key        = var.scaler_openstack_metadata_key
     openstack_keypair             = var.scaler_openstack_keypair
+    gateway_host_openstack_name   = var.gateway_host_name
     gateway_host_openstack_image  = var.gateway_host_image
     gateway_host_openstack_flavor = var.gateway_host_flavor
     gateway_host_replicas         = var.gateway_host_replicas
+    kamailio_openstack_name       = var.kamailio_name
     kamailio_openstack_image      = var.kamailio_image
     kamailio_openstack_flavor     = var.kamailio_flavor
     kamailio_replicas             = var.kamailio_replicas
+    coturn_openstack_name         = var.coturn_name
     coturn_openstack_image        = var.coturn_image
     coturn_openstack_flavor       = var.coturn_flavor
     coturn_replicas               = var.coturn_replicas
@@ -142,7 +145,7 @@ resource "openstack_compute_instance_v2" "scaler" {
   })
 
   network {
-    port = openstack_networking_port_v2.scaler.id
+    name = openstack_networking_network_v2.internal.name
   }
 
   metadata = {

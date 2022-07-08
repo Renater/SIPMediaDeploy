@@ -1,7 +1,7 @@
 ---
 # Scaler Docker image configuration
 scaler_image_name: renater/simplescalevm
-scaler_version: 2.0.0
+scaler_version: test-auto
 
 # Scaler HTTP configuration
 scaler_http_host: 0.0.0.0
@@ -17,6 +17,9 @@ scaler_replica_api_capacity_key: capacity
 scaler_replica_api_termination_key: termination
 scaler_external_address_management: false
 
+# Autoscaling configuration
+scaler_autoscaling: false
+
 # Provider configuration
 scaler_provider: openstack
 scaler_provider_configuration:
@@ -30,6 +33,7 @@ scaler_provider_configuration:
   project_name: ovh_project_name
   interface: public
   identity_api_version: 3
+  server_name: server
   flavor: d2-8
   image: Debian 11
   ip_version: 4
@@ -40,6 +44,15 @@ scaler_provider_configuration:
   keypair: ovh_keypair
   use_cloud_init: false
   cloud_init_file: cloud-init.sh
+scaler_provider_autoscaling_configuration:
+  server_name: autoscaler
+  flavor: s1-2
+  image: Debian 11
+  network: Ext-Net
+  metadata_value: autoscaler
+  use_cloud_init: false
+  cloud_init_file: autoscaler.cloud-init.sh
+  nodes: 3
 
 # Gateway Scaler general configuration
 scaler_user: scaler
