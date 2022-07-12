@@ -13,7 +13,7 @@ stun_password: "1234"
 
 # Gateway configuration
 gateway_image_name: renater/sipmediagw
-gateway_image_tag: test
+gateway_image_tag: 1.1.2
 gateway_cpu_cores_per_gateway: 2.5
 
 # Option to start gateways at the end of the execution
