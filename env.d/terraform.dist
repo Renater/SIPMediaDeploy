@@ -56,6 +56,7 @@ TF_VAR_kamailio_domain_name=
 TF_VAR_scaler_name=scaler
 TF_VAR_scaler_image="Scaler"
 TF_VAR_scaler_flavor=s1-2
+TF_VAR_scaler_replicas=2
 
 TF_VAR_scaler_os_auth_url=${OS_AUTH_URL}
 TF_VAR_scaler_os_username=${OS_USERNAME}

@@ -40,6 +40,7 @@ export OS_AUTH_URL \
     TF_VAR_scaler_name \
     TF_VAR_scaler_image \
     TF_VAR_scaler_flavor \
+    TF_VAR_scaler_replicas \
     TF_VAR_scaler_os_auth_url \
     TF_VAR_scaler_os_username \
     TF_VAR_scaler_os_password \
