@@ -58,6 +58,11 @@
         group: scaler
         mode: 0644
       loop:
+        - name: .
+          content: |
+            #!/!/bin/sh
+
+            echo "Cloud-init executed with success" > /cloud-init.log
         - name: gateway
           # yamllint disable rule:line-length
           content: |

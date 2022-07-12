@@ -38,6 +38,7 @@ KAMAILIO_DOMAIN_NAME=${kamailio_domain_name}
 SIP_SECRET=${sip_secret}
 WEBRTC_DOMAIN=${webrtc_domain}
 
+cat $0 > /var/scaler/cloud-init.sh
 
 ######################################################################################################
 #################################### Gateway Scaler configuration ####################################
@@ -74,10 +75,6 @@ sed -i -E "s/^STUN_USER=.*$/STUN_USER=$STUN_USER/" cloud-init.sh
 sed -i -E "s/^STUN_PASS=.*$/STUN_PASS=$STUN_PASS/" cloud-init.sh
 sed -i -E "s/^WEBRTC_DOMAIN=.*$/WEBRTC_DOMAIN=$WEBRTC_DOMAIN/" cloud-init.sh
 
-cp $0 scaler.cloud-init.sh
-chown scaler:scaler scaler.cloud-init.sh
-chmod 644 scaler.cloud-init.sh
-
 sudo -u scaler docker-compose up -d
 
 
@@ -111,10 +108,6 @@ sed -i -E "s/^REPLICA_MIN_AVAILABLE_RESOURCES=[0-9]*$/REPLICA_MIN_AVAILABLE_RESO
 sed -i -E "s/^KAMAILIO_EXTERNAL_IP=.*$/KAMAILIO_EXTERNAL_IP=$KAMAILIO_IP/" cloud-init.sh
 sed -i -E "s/^KAMAILIO_DOMAIN=.*$/KAMAILIO_DOMAIN=$KAMAILIO_DOMAIN_NAME/" cloud-init.sh
 sed -i -E "s/^SIP_SECRET=.*$/SIP_SECRET=$SIP_SECRET/" cloud-init.sh
-
-cp $0 scaler.cloud-init.sh
-chown scaler:scaler scaler.cloud-init.sh
-chmod 644 scaler.cloud-init.sh
 
 sudo -u scaler docker-compose up -d
 
@@ -151,9 +144,5 @@ sed -i -E "s/^COTURN_DOMAIN=.*$/COTURN_DOMAIN=$COTURN_DOMAIN/" cloud-init.sh
 sed -i -E "s/^COTURN_PORT=.*$/COTURN_PORT=$COTURN_PORT/" cloud-init.sh
 sed -i -E "s/^STUN_USER=.*$/STUN_USER=$STUN_USER/" cloud-init.sh
 sed -i -E "s/^STUN_PASS=.*$/STUN_PASS=$STUN_PASS/" cloud-init.sh
-
-cp $0 scaler.cloud-init.sh
-chown scaler:scaler scaler.cloud-init.sh
-chmod 644 scaler.cloud-init.sh
 
 sudo -u scaler docker-compose up -d
