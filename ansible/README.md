@@ -22,7 +22,14 @@ env/bin/ansible-galaxy install -r requirements.yml
 
 ## Configuration
 
-The Ansible configuration is detailed in the [ansible.cfg](./ansible.cfg) file. All configuration keys are available in [the Ansible documentation](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
+In order to customize the provisioning of the infrastructure, you may overwrite default values directly in the inventory. Each role includes a README that precisely describes all variables.
+
+The TLS configuration for SIP signalling is a special case as it is a general feature that affects several parts of the infrastructure. It is configurable by passing the following environment variables when launching the playbooks:
+* `ENABLE_TLS`: boolean that indicates if TLS should be enabled for SIP signalling.
+* `KAMAILIO_FULLCHAIN_CERTIFICATE`: the fullchain of the TLS certificate.
+* `KAMAILIO_PRIVKEY_CERTIFICATE`: the private key of the TLS certificate.
+
+Besides, the global Ansible configuration is detailed in the [ansible.cfg](./ansible.cfg) file. All configuration keys are available in [the Ansible documentation](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
 
 
 ## Launch a playbook
