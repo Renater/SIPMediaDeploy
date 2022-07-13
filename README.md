@@ -5,7 +5,9 @@ This repository hosts all scripts that permit to deploy from scratch the entire 
 * the [packer](./packer/) directory, that uses [Packer](https://www.packer.io/docs) to build VM images.
 * the [terraform](./terraform/) directory, that uses [Terraform](https://www.terraform.io/docs) to deploy the stack on several cloud providers and configures it with [Cloud-Init](https://cloudinit.readthedocs.io/en/latest/index.html).
 
-This repository does not contain the code of the SIP Media Gateway, it is based on the [SIPMediaGateway repository](https://github.com/Renater/SIPMediaGW).
+The solution developed in this repository relies on two external repositories that permit to build the Docker images:
+* the [SIPMediaGateway](https://github.com/Renater/SIPMediaGW) repository, which contains the code of the SIP Media Gateway.
+* the [SimpleScaleVM](https://github.com/Renater/SimpleScaleVM) repository, which contains the code of the scaling module.
 
 
 ## Configuration
