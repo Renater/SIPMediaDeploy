@@ -1,24 +1,32 @@
 # SIPMediaDeploy - Packer
 
-A [Packer](https://www.packer.io/docs) project to build virtual machine images of the SIP Media Gateway stack.
+A [Packer](https://www.packer.io/docs) project to build the virtual machine images of the SIP Media Gateway stack.
 
 
 ## Installation
 
-Install Packer using [this tutorial](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli)
+Install Packer using [this tutorial](https://learn.hashicorp.com/tutorials/packer/get-started-install-cli).
 
 
 ## Configuration
 
-Environment variables are necessary for the connection to the Openstack cluster (env.d/packer).
+The credentials that allows Packer to connect to the Openstack cluster should be passed as environment variables:
+* `OS_AUTH_URL`: URL of the Openstack endpoint.
+* `OS_USERNAME`: name of the Openstack user.
+* `OS_PASSWORD`: password of the Openstack user.
+* `OS_REGION_NAME`: name of the Openstack region.
+* `OS_PROJECT_DOMAIN_ID`: ID of the Openstack project domain.
+* `OS_USER_DOMAIN_NAME`: name of the Openstack project domain.
+* `OS_PROJECT_ID`: ID of the Openstack project.
+* `OS_PROJECT_NAME`: name of the Openstack project.
+* `OS_INTERFACE`: Openstack interface.
+* `OS_IDENTITY_API_VERSION`: version of the Openstack API.
 
-Credentials can be downloaded from the dashboard (you can follow [this tutorial](https://docs.openstack.org/newton/user-guide/common/cli-set-environment-variables-using-openstack-rc.html)).
-
-Other variables must be set in order to create the image: the ID of the image, the ID of the flavor and Id of the network.
-
-These information can be found either using the Openstack command line or directly from the dashboard.
-
-In order to launch packer commands, the file containing the variables must be sourced.
+For each service among `GW_HOST`, `KAMAILIO`, `COTURN` and `SCALER`, four environment variables should be declared in order to configure the build of the VM image:
+* `PKR_VAR_<service>_SOURCE`: name of the base OS image.
+* `PKR_VAR_<service>_FLAVOR`: name of the flavor.
+* `PKR_VAR_<service>_NETWORK_ID`: ID of the network (this information can be found either using the Openstack command line or directly from the dashboard).
+* `PKR_VAR_<service>_SSH_USERNAME`: name of the user for the SSH connection.
 
 
 ## Launch a packer build
@@ -29,8 +37,8 @@ In order to build all images, launch the following command:
 packer build .
 ```
 
-In order to build the image defined by the `image.pkr.hcl` file, launch the following command:
+In order to build the image of a service defined in a `<service>.pkr.hcl` file, launch the following command:
 
 ```bash
-packer build image.pkr.hcl
+packer build <service>.pkr.hcl
 ```

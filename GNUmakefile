@@ -1,6 +1,14 @@
 ansible/env:
 	virtualenv ansible/env
 
+.PHONY: build
+build:
+	bin/packer build .
+
+.PHONY: deploy
+deploy:
+	bin/terraform apply
+
 .PHONY: env
 env: env.d/ansible env.d/packer env.d/terraform
 
@@ -13,6 +21,9 @@ env.d/packer:
 env.d/terraform:
 	cp env.d/terraform.dist env.d/terraform
 
+.PHONY: install
+install: install-ansible install-terraform
+
 .PHONY: install-ansible
 install-ansible: ansible/env
 	ansible/env/bin/pip3 install -r ansible/requirements.txt
@@ -21,7 +32,3 @@ install-ansible: ansible/env
 .PHONY: install-terraform
 install-terraform:
 	bin/terraform init
-
-.PHONY: build
-build:
-	bin/packer build .
