@@ -9,6 +9,8 @@ The solution developed in this repository relies on two external repositories th
 * the [SIPMediaGateway](https://github.com/Renater/SIPMediaGW) repository, which contains the code of the SIP Media Gateway.
 * the [SimpleScaleVM](https://github.com/Renater/SimpleScaleVM) repository, which contains the code of the scaling module.
 
+The full explanation of the approach and functioning of this project are described in [the documentation directory](./docs/sipmediadeploy-in-depth.md).
+
 
 ## Configuration
 
