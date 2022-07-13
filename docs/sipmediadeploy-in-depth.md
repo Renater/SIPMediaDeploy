@@ -47,7 +47,7 @@ Note: the ansible playbooks can be used independently to provisions virtual mach
 For this project we needed a module to create the GaterwayHost machines automatically in order to have at a any given moment
 a given number Gateway that are ready and on standby to take calls. For this, we chose to developp our own custom module that can be used with multiple providers. This module is the [SimpleScaleVM](https://github.com/Renater/SimpleScaleVM).To learn more about this custom module please visit this [more-in-depth document](https://github.com/Renater/SimpleScaleVM/tree/add-autoscaling-docs).
 
-Once deployed we should obtain this ![infrastructure](./infrastructure.png).
+Once deployed we should obtain this ![infrastructure](./Infrastructure.png).
 
 # Redondence
 
