@@ -9,7 +9,7 @@ This project aims to implement automatic deployement and auto scaling for the [S
 
 The initail infrastructure for the SIPMediaGAteway is detailed in the following schema :
 
-[initial infrastructure](https://github.com/Renater/SIPMediaGW/blob/main/docs/SIPMediaGW.png)
+![initial infrastructure](https://github.com/Renater/SIPMediaGW/blob/main/docs/SIPMediaGW.png)
 
 We can see that there is 3 important parts:
 * the **SIP server**, the Kamailio server in this case.
@@ -31,7 +31,7 @@ After extensive discussions, these technologies were agreed upon as follows:
 
 The exact worflow for the deployment is detailed in the following schema:
 
-![worflow](./deployment-workflow.png)
+![worflow](./deployement-workflow.png)
 
 We can see that to deploy the whole infrastructure we need to:
 * Build docker images for the Gateway and the Scaler and push then to Dockerhub.
