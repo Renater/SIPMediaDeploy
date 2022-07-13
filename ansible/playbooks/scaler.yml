@@ -60,9 +60,9 @@
       loop:
         - name: .
           content: |
-            #!/!/bin/sh
+            #!/bin/sh
 
-            echo "Cloud-init executed with success" > /cloud-init.log
+            echo "This file is going to be overwritten by the cloud-init!"
         - name: gateway
           # yamllint disable rule:line-length
           content: |
