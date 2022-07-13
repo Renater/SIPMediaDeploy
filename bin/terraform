@@ -18,6 +18,7 @@ export OS_AUTH_URL \
     TF_VAR_internal_network_cidr \
     TF_VAR_internal_network_gateway \
     TF_VAR_internal_network_ip_version \
+    TF_VAR_gateway_host_name \
     TF_VAR_gateway_host_image \
     TF_VAR_gateway_host_flavor \
     TF_VAR_gateway_host_replicas \
