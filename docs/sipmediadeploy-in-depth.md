@@ -1,61 +1,71 @@
-# SIPMediaDeploy in depth
-This document will aim to bring more information about the SIPMediaDeploy project.
+# SIPMediaDeploy in-depth
 
-# Presentation
+This document aims at bringing more information about the SIPMediaDeploy project.
 
-This project aims to implement automatic deployement and auto scaling for the [SIPMediaGateway](https://github.com/Renater/SIPMediaGW). The SIPMediaGateway project was put in place in order to develp a solution that allows SIP terminals to participate in WEBRTC calls (in this case Jitsi webconferences). This solution was developped by [Renater](https://github.com/Renater) and this repository uses the source code to implement automatic deployment and scaling on an Openstack environment.
 
-# Initial Infrastructure
+## Presentation
 
-The initial infrastructure for the SIPMediaGAteway is detailed in the following schema:
+This project aims at implementing automatic deployement and redundancy for the [SIPMediaGateway](https://github.com/Renater/SIPMediaGW), which was put in place in order to develop a solution that allows SIP terminals to participate in WebRTC calls.
 
-![initial infrastructure](https://github.com/Renater/SIPMediaGW/blob/main/docs/SIPMediaGW.png)
+This solution is currently limited to:
+* the use of [Jitsi Meet](https://jitsi.org/jitsi-meet/) for the WebRTC platform.
+* the use of [OpenStack](https://www.openstack.org) for the cloud provider.
 
-We can see that there is 3 important parts:
-* the **SIP server**, the Kamailio server in this case.
-* the **TURN server**, the Coturn server.
-* the **Gateway server**, the server that containes the docker based media gateway.
+Of course, this solution can be easily adapted to support other WebRTC platforms and cloud providers.
 
-In the rest of the project, a choice was made to deploy only one media gateway per GatewayHost server, but this can be easily changed using environement variables.
 
-In this project we implement automatic deployment for the whole infrastructure with autoscaling for the GatewayHosts using a scaling module, later on we add redondance for the Kamailio and Coturn server as well as the scsling module.
+## Initial Infrastructure
 
-# Automatic deployement and autoscaling
+The initial infrastructure for the SIPMediaGateway is detailed in the following schema:
 
-## Automatic Deployment
+![initial infrastructure](https://raw.githubusercontent.com/Renater/SIPMediaGW/main/docs/SIPMediaGW.png).
 
-After extensive discussions, these technologies were agreed upon as follows:
-* **Ansible** for the configuration of virtual machine images.
-* **Packer** for building said images and pushing them to the Openstack working environment.
-* **Terraform** for the deployment for the whole infrastructure.
+We can see that there are 3 important parts:
+* the **SIP server**, which is based on [Kamailio](https://www.kamailio.org/w/).
+* the **TURN server**, which is based on [Coturn](https://coturn.net).
+* the **Gateway Host servers**, which host the Docker based SIP Media Gateways.
+
+In the rest of the project, a choice was made to deploy only one Media Gateway per Gateway Host server, but this can be easily changed using environment variables.
+
+
+## Automatic deployement
+
+After extensive discussions which involved maintainability and multi-provider support, the used technologies were agreed upon as follows:
+* **Ansible** to configure virtual machine images.
+* **Packer** to build images and push them to the OpenStack working environment.
+* **Terraform** to deploy the whole infrastructure.
 
 The exact worflow for the deployment is detailed in the following schema:
 
-![worflow](./deployement-workflow.png)
+![deployment-workflow](./deployement-workflow.png)
 
-We can see that to deploy the whole infrastructure we need to:
-* Build docker images for the Gateway and the Scaler and push them to Dockerhub.
-* Build virtual machine images using Packer and Ansible.
-* Deploy the infrastructure using Terraform.
+Therefore, in order to deploy the whole infrastructure, we need to:
+* build Docker images for the Gateway and the Scaler and push them to Dockerhub.
+* build virtual machine images using Packer and Ansible.
+* deploy the infrastructure using Terraform.
 
-The commands to use are in the READMEs of each directory of the project.
+All commands for this purpose are detailed in the READMEs of each directory of the project.
 
-Note: the ansible playbooks can be used independently to provision virtual machines for a more custom configuration.
+Note that the Ansible playbooks can be launched independently without using Packer to provision virtual machines.
 
-## Autoscaling
 
-For this project we needed a module to create the GaterwayHost machines automatically in order to have at any given moment
-a given number of Gateways that are on standby and ready to take calls. For this, we chose to developp our own custom module that can be used with multiple providers. This module is the [SimpleScaleVM](https://github.com/Renater/SimpleScaleVM).To learn more about this custom module please visit this [more-in-depth document](https://github.com/Renater/SimpleScaleVM/tree/add-autoscaling-docs).
+## Scaling
 
-Once deployed we should obtain this ![infrastructure](./Infrastructure.png)
+In order to provide a solution that allows to create Gateway Host servers (and not only that if redundancy is enabled), a scaling solution has to be used. To minimize dependences on the infrastructure, we chose to develop our own scaling module. The whole code is available on [Github](https://github.com/Renater/SimpleScaleVM) (and a detailed functioning of the module is available in the [documentation of the repository](https://github.com/Renater/SimpleScaleVM/blob/main/docs/simplescalevm-in-depth.md)) and the corresponding Docker images are hosted on [Dockerhub](https://hub.docker.com/r/renater/simplescalevm).
 
-# Redondance
+Here is the updated infrastructure with the scaling module:
 
-Seeing as the crucial role played by both the Kamailio and the Coturn server, a more resilient infrastructure is needed to garantee a minimal downtime in the case of an accident. For this, each brick of the infrastructure was multiplied and a floating IP system was implemented to ensure successful and rapid failover.
+![infrastructure](./infrastructure.png)
 
-For example, two instances of Kmailio servers are deployed with the same configuration. The main server has the floating IP address attached to it and the scaling module makes sure that this server is always alive and working. In the case of an issue (Kamailio service shutting down for example), the scaling module detaches the floationg IP from the faulty instance to the one on standby.
 
-The exact infrastructure is detailed in the following schema:
-![redondance](./redondance.png)
+## Redundancy
 
-The scaling module is also duplicated but it fonctions in a slave/master configuration, to learn more about this, please refer to the documentation in the SimpleScaleVM repository mentionned above.
+Given that the Kamailio and Coturn instances play a crucial role in the proper functioning of the stack, a more resilient infrastructure is needed to guarantee a minimal downtime in the event of an incident. That is the reason why each brick of the infrastructure was duplicated and a floating IP system was implemented to ensure successful and rapid failovers.
+
+For example, two instances of Kamailio servers are deployed with the same configuration. The main server has the floating IP address attached to it and the scaling module makes sure that this server is always alive and working. In the case of an issue (for instance the Kamailio service shutting down), the scaling module detaches the floating IP from the faulty instance to the one on standby.
+
+This process is detailed in the following schema:
+
+![redundancy](./redundancy.png)
+
+Besides, the scaling module is also duplicated thanks to a feature that is offered by SimpleScaleVM: a cluster of scaling instances is always running and the role of every instance is defined according to a master/slave paradigm.
