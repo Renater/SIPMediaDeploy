@@ -25,6 +25,7 @@ TF_VAR_internal_network_gateway=192.168.0.1
 TF_VAR_internal_network_ip_version=4
 
 # Gateway configuration
+TF_VAR_gateway_host_name=gateway
 TF_VAR_gateway_host_image=GatewayHost
 TF_VAR_gateway_host_flavor=d2-8
 TF_VAR_gateway_host_replicas=3
@@ -56,6 +57,7 @@ TF_VAR_kamailio_domain_name=
 TF_VAR_scaler_name=scaler
 TF_VAR_scaler_image="Scaler"
 TF_VAR_scaler_flavor=s1-2
+TF_VAR_scaler_replicas=2
 
 TF_VAR_scaler_os_auth_url=${OS_AUTH_URL}
 TF_VAR_scaler_os_username=${OS_USERNAME}

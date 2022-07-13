@@ -9,7 +9,12 @@ services:
     ports:
       - "{{ scaler_http_port }}:{{ scaler_http_port }}"
     env_file: {{ scaler_directory }}/.env
-{% if scaler_provider_configuration.use_cloud_init %}
+{% if scaler_provider_configuration.use_cloud_init or (scaler_autoscaling and scaler_provider_autoscaling_configuration.use_cloud_init) %}
     volumes:
-      - "./cloud-init.sh:/{{ scaler_provider_configuration.cloud_init_file }}"
+{% if scaler_provider_configuration.use_cloud_init %}
+     - "./cloud-init.sh:/{{ scaler_provider_configuration.cloud_init_file }}"
+{% endif %}
+{% if scaler_autoscaling and scaler_provider_autoscaling_configuration.use_cloud_init %}
+     - "../cloud-init.sh:/{{ scaler_provider_autoscaling_configuration.cloud_init_file }}"
+{% endif %}
 {% endif %}
